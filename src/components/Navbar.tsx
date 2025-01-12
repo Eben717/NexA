@@ -2,12 +2,12 @@ const Navbar = () => {
   return (
     <div className='flex items-center justify-between p-4'>
       {/* SEARCH BAR */}
-    <div className="hidden md:flex">
+    <div className="hidden md:flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2">
       <img src="search.svg" alt="" width={14} height={14}/>
-      <input type="text" placeholder="Search..."/>
+      <input type="text" placeholder="Search..." className="w-[200px] p-2 bg-transparent outline-none"/>
     </div>
     {/* ICONS AND USERS */}
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 justify-end w-full">
       <div className="bg-white rounded w-6 h-6 items-center justify-center cursor-pointer">
         <img src="message.svg" alt="" width={20} height={20}/>
        </div>
