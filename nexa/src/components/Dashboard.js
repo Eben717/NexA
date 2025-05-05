@@ -2,7 +2,7 @@ import React from 'react';
 
 const Dashboard = () => {
     const handleClick = (label) => {
-        alert(`You clicked on ${label}`);
+        // No action needed for click events
     };
 
     return (
