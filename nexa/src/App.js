@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Dashboard from './components/Dashboard';
 import NavBar from './components/NavBar';
 import LoginPage from './components/LoginPage';
+import SideBar from './components/SideBar';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,7 +11,7 @@ function App() {
     return (
         <Router>
             <div className="App">
-                {isAuthenticated && <NavBar />}
+                {isAuthenticated && <NavBar /> && <SideBar />}
                 <Routes>
                     <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
