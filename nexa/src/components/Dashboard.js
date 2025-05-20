@@ -6,10 +6,10 @@ const Dashboard = () => {
     };
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh' }}>
+        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', alignItems: 'center', marginLeft: 'auto', transform: 'translateY(-94%)' }}>
             {/* Header */}
             <h1 style={{ borderBottom: '2px solid #007BFF', paddingBottom: '10px', color: '#333' }}>Dashboard</h1>
-
+            
             {/* Circles */}
             <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px', flexWrap: 'wrap', gap: '20px' }}>
                 {['Audit Status Overview', 'Recent Activity', 'Due Reports', 'NC Reports', 'KPIs'].map((label) => (
