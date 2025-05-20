@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const LoginPage = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSignIn = () => {
         console.log('Sign In clicked', { username, password });
-        // Add sign-in logic here
+
+        // Placeholder authentication logic
+        if (username && password) {
+            setIsAuthenticated(true);  // Update authentication state
+            navigate('/dashboard');     // Redirect to dashboard
+        }
     };
 
     const handleCreateAccount = () => {
         console.log('Create Account clicked');
-        // Add create account logic here
     };
 
     return (
+        // Your existing styled LoginPage component
         <div
             style={{
                 display: 'flex',
@@ -38,15 +45,7 @@ const LoginPage = () => {
             >
                 <h1 style={{ marginBottom: '1.5rem', color: '#333' }}>Welcome Back</h1>
                 <div style={{ marginBottom: '1rem' }}>
-                    <label
-                        htmlFor="username"
-                        style={{
-                            display: 'block',
-                            marginBottom: '0.5rem',
-                            fontWeight: 'bold',
-                            color: '#555',
-                        }}
-                    >
+                    <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555' }}>
                         Username
                     </label>
                     <input
@@ -65,15 +64,7 @@ const LoginPage = () => {
                     />
                 </div>
                 <div style={{ marginBottom: '1.5rem' }}>
-                    <label
-                        htmlFor="password"
-                        style={{
-                            display: 'block',
-                            marginBottom: '0.5rem',
-                            fontWeight: 'bold',
-                            color: '#555',
-                        }}
-                    >
+                    <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555' }}>
                         Password
                     </label>
                     <input
@@ -112,15 +103,9 @@ const LoginPage = () => {
                 </button>
                 <p
                     onClick={handleCreateAccount}
-                    style={{
-                        marginTop: '1rem',
-                        color: '#007BFF',
-                        cursor: 'pointer',
-                        fontSize: '0.9rem',
-                    }}
+                    style={{ marginTop: '1rem', color: '#007BFF', cursor: 'pointer', fontSize: '0.9rem' }}
                 >
-                    Don't have an account?{' '}
-                    <span style={{ textDecoration: 'underline' }}>Create one</span>
+                    Don't have an account? <span style={{ textDecoration: 'underline' }}>Create one</span>
                 </p>
             </div>
         </div>
