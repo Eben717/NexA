@@ -55,6 +55,9 @@ const styles = {
         marginBottom: '8px',
         transition: 'background 0.2s',
     },
+    listItemHover: {
+        background: '#353b48',
+    },
 };
 
 export default SideBar;

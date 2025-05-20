@@ -11,7 +11,8 @@ function App() {
     return (
         <Router>
             <div className="App">
-                {isAuthenticated && <NavBar /> && <SideBar />}
+                {isAuthenticated && <NavBar />}
+                {isAuthenticated && <SideBar />}
                 <Routes>
                     <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
