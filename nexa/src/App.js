@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
-import NavBar from './components/NavBar';
+import Dashboard from './components/SideBar/Dashboard';
+import NavBar from './components/NavBar/NavBar';
 import LoginPage from './components/LoginPage';
-import SideBar from './components/SideBar';
+import SideBar from './components/SideBar/SideBar';
+import Projects from './components/SideBar/Projects';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,6 +17,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
+                    <Route path="/projects" element={isAuthenticated ? <Projects /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>
