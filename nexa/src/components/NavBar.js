@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaSearch, FaBell, FaUserCircle } from 'react-icons/fa';
 
 const NavBar = () => {
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-
-    const toggleDropdown = () => {
-        setDropdownVisible(!dropdownVisible);
-    };
+    const [isDropdownOpen, setDropdownOpen] = React.useState(false);
 
     const styles = {
         navbar: {
@@ -16,7 +12,6 @@ const NavBar = () => {
             padding: '10px 20px',
             backgroundColor: '#333',
             color: '#fff',
-            position: 'relative',
         },
         logo: {
             fontSize: '24px',
@@ -49,26 +44,34 @@ const NavBar = () => {
             fontSize: '30px',
             cursor: 'pointer',
         },
+        Usericon: {
+            fontSize: '30px',
+            cursor: 'pointer',
+        },
         dropdown: {
             position: 'absolute',
             top: '50px',
             right: '0',
-            backgroundColor: '#007BFF',
-            color: '#fff',
+            backgroundColor: '#fff',
+            color: '#333',
             borderRadius: '5px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             padding: '10px',
-            width: '150px',
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+            zIndex: 1000,
         },
         dropdownItem: {
-            padding: '8px 12px',
+            padding: '10px',
             cursor: 'pointer',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+            borderBottom: '1px solid #ddd',
         },
-        lastDropdownItem: {
-            padding: '8px 12px',
+        dropdownItemLast: {
+            padding: '10px',
             cursor: 'pointer',
-        }
+        },
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen);
     };
 
     return (
@@ -90,18 +93,20 @@ const NavBar = () => {
             </div>
             <div style={styles.iconsContainer}>
                 <FaBell style={styles.icon} title="Notifications" />
-                <FaUserCircle 
-                    style={styles.icon} 
-                    title="User Profile" 
-                    onClick={toggleDropdown} 
-                />
-                {dropdownVisible && (
-                    <div style={styles.dropdown}>
-                        <div style={styles.dropdownItem}>Profile</div>
-                        <div style={styles.dropdownItem}>Settings</div>
-                        <div style={styles.lastDropdownItem}>Sign Out</div>
-                    </div>
-                )}
+                <div style={{ position: 'relative' }}>
+                    <FaUserCircle
+                        style={styles.Usericon}
+                        title="User Profile"
+                        onClick={toggleDropdown}
+                    />
+                    {isDropdownOpen && (
+                        <div style={styles.dropdown}>
+                            <div style={styles.dropdownItem}>Profile</div>
+                            <div style={styles.dropdownItem}>Settings</div>
+                            <div style={styles.dropdownItemLast}>Logout</div>
+                        </div>
+                    )}
+                </div>
             </div>
         </nav>
     );
