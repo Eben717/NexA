@@ -5,9 +5,6 @@ import { Link } from 'react-router-dom';
 const sidebarItems = [
     { name: 'Dashboard', key: 'dashboard' },
     { name: 'Projects', key: 'projects' },
-    { name: 'Risk Management', key: 'risk-management' },
-    { name: 'Controls', key: 'controls' },
-    { name: 'Findings', key: 'findings' },
     { name: 'Reports', key: 'reports' },
     { name: 'Library', key: 'library' },
 ];
