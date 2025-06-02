@@ -7,6 +7,7 @@ import SideBar from './components/SideBar/SideBar';
 import Projects from './components/SideBar/Projects';
 import Reports from './components/SideBar/reports';
 
+
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
