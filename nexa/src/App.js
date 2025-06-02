@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import SideBar from './components/SideBar/SideBar';
 import Projects from './components/SideBar/Projects';
 import Reports from './components/SideBar/reports';
+import ProfilePage from './components/NavBar/ProfilePage';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
                     <Route path="/projects" element={isAuthenticated ? <Projects /> : <Navigate to="/" />} />
                     <Route path="/reports" element={isAuthenticated ? <Reports /> : <Navigate to="/" />} />
+                    <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>

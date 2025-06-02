@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaSearch, FaBell, FaUserCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
     const [isDropdownOpen, setDropdownOpen] = React.useState(false);
@@ -105,7 +106,8 @@ const NavBar = () => {
                     />
                     {isDropdownOpen && (
                         <div style={styles.dropdown}>
-                            <div style={styles.dropdownItem}>Profile</div>
+                            <Link to="/profile" style={styles.dropdownItem} 
+                            onClick={() => setDropdownOpen(false)}>Profile</Link>
                             <div style={styles.dropdownItem}>Settings</div>
                             <div style={styles.dropdownItemLast}>Logout</div>
                         </div>
