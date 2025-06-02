@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dashboard = () => {
+const Projects = () => {
     const handleClick = (label) => {
         // No action needed for click events
     };
@@ -12,7 +12,7 @@ const Dashboard = () => {
             
             {/* Circles */}
             <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px', flexWrap: 'wrap', gap: '20px' }}>
-                {['Completed', 'In-Progress', 'Due Reports'].map((label) => (
+                {['Completed', 'In-Progress', 'All Projects'].map((label) => (
                     <div
                         key={label}
                         onClick={() => handleClick(label)}
@@ -48,4 +48,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Projects;

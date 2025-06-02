@@ -5,6 +5,7 @@ import NavBar from './components/NavBar/NavBar';
 import LoginPage from './components/LoginPage';
 import SideBar from './components/SideBar/SideBar';
 import Projects from './components/SideBar/Projects';
+import Reports from './components/SideBar/reports';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
                     <Route path="/projects" element={isAuthenticated ? <Projects /> : <Navigate to="/" />} />
+                    <Route path="/reports" element={isAuthenticated ? <Reports /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>
