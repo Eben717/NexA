@@ -105,13 +105,35 @@ const NavBar = () => {
                         onClick={toggleDropdown}
                     />
                     {isDropdownOpen && (
-                        <div style={styles.dropdown}>
-                            <Link to="/profile" style={styles.dropdownItem}
-                            onClick={() => setDropdownOpen(false)}>Profile</Link>
-                             <Link to="/settings" style={styles.dropdownItem}
-                            onClick={() => setDropdownOpen(false)}>Settings</Link>
-                             <Link to="/logout" style={styles.dropdownItem}
-                            onClick={() => setDropdownOpen(false)}>Logout</Link>
+                        <div
+                            style={{
+                                ...styles.dropdown,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'stretch'
+                            }}
+                        >
+                            <Link
+                                to="/profile"
+                                style={styles.dropdownItem}
+                                onClick={() => setDropdownOpen(false)}
+                            >
+                                Profile
+                            </Link>
+                            <Link
+                                to="/settings"
+                                style={styles.dropdownItem}
+                                onClick={() => setDropdownOpen(false)}
+                            >
+                                Settings
+                            </Link>
+                            <Link
+                                to="/logout"
+                                style={styles.dropdownItemLast}
+                                onClick={() => setDropdownOpen(false)}
+                            >
+                                Logout
+                            </Link>
                         </div>
                     )}
                 </div>
