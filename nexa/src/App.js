@@ -7,6 +7,7 @@ import SideBar from './components/SideBar/SideBar';
 import Projects from './components/SideBar/Projects';
 import Reports from './components/SideBar/reports';
 import ProfilePage from './components/NavBar/ProfilePage';
+import Logout from './components/NavBar/Logout';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/projects" element={isAuthenticated ? <Projects /> : <Navigate to="/" />} />
                     <Route path="/reports" element={isAuthenticated ? <Reports /> : <Navigate to="/" />} />
                     <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />} />
+                    <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>

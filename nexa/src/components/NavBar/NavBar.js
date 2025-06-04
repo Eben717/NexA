@@ -106,10 +106,12 @@ const NavBar = () => {
                     />
                     {isDropdownOpen && (
                         <div style={styles.dropdown}>
-                            <Link to="/profile" style={styles.dropdownItem} 
+                            <Link to="/profile" style={styles.dropdownItem}
                             onClick={() => setDropdownOpen(false)}>Profile</Link>
-                            <div style={styles.dropdownItem}>Settings</div>
-                            <div style={styles.dropdownItemLast}>Logout</div>
+                             <Link to="/settings" style={styles.dropdownItem}
+                            onClick={() => setDropdownOpen(false)}>Settings</Link>
+                             <Link to="/logout" style={styles.dropdownItem}
+                            onClick={() => setDropdownOpen(false)}>Logout</Link>
                         </div>
                     )}
                 </div>
