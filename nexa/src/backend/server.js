@@ -1,19 +1,21 @@
-const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 const app = express();
-app.use(express.json());
+dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => {
-    console.error("❌ MongoDB Connection Error:", err);
-    process.exit(1);
-  });
+const PORT = process.env.PORT || 8000;
+const MONGO_URL = process.env.MONGO_URL;
 
-app.get("/", (req, res) => {
-  res.send("Server is running!");
+mongoose
+.connect(MONGO_URL)
+.then(() => {
+    console.log('database connected successfully');
+    app.listen(PORT, () => {
+        console.log(`server is running on port ${PORT}`);
+    });
+})
+.catch((err) => {
+    console.error('database connection failed:', err);
 });
-
-app.listen(5000, () => console.log("🚀 Server running on port 5000"));
