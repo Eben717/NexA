@@ -12,7 +12,7 @@ const Projects = () => {
             
             {/* Circles */}
             <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px', flexWrap: 'wrap', gap: '20px' }}>
-                {['Completed', 'In-Progress', 'All Projects'].map((label) => (
+                {['Completed', 'In-Progress', 'Unexecuted', 'Project List'].map((label) => (
                     <div
                         key={label}
                         onClick={() => handleClick(label)}
