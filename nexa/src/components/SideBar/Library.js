@@ -45,13 +45,13 @@ const Library = () => {
                         width="20"
                         height="13"
                         rx="3"
-                        fill={isClicked ? "#FFF176" : undefined}
+                        fill={isClicked ? "#F5F6FA" : undefined}
                         style={{ transition: 'fill 0.2s' }}
                         className="folder-body"
                     />
                     <path
                         d="M2 7V5a2 2 0 0 1 2-2h5.17a2 2 0 0 1 1.41.59l1.83 1.83A2 2 0 0 0 13.83 6H20a2 2 0 0 1 2 2v2"
-                        fill="#FFFDE7"
+                        fill="#FFFFFF"
                     />
                     <rect
                         x="2"
@@ -59,7 +59,7 @@ const Library = () => {
                         width="20"
                         height="13"
                         rx="3"
-                        stroke="#FBC02D"
+                        stroke="#B0BEC5"
                         strokeWidth="1.5"
                     />
                 </svg>
@@ -68,11 +68,11 @@ const Library = () => {
                 fontSize: '16px', fontWeight: 500 }}> Documents </div>
                 <style>{`
                     .folder-body {
-                        fill: #FFEB3B;
+                        fill: #E5E7EB;
                         transition: fill 0.2s;
                     }
                     div[tabindex]:hover .folder-body {
-                        fill: #FFEE58;
+                        fill: #F5F6FA;
                     }
                 `}</style>
             </div>

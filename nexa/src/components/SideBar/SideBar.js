@@ -1,12 +1,13 @@
 // src/components/SideBar/SideBar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaTachometerAlt, FaFolderOpen, FaChartBar, FaBook } from 'react-icons/fa';
 
 const sidebarItems = [
-    { name: 'Dashboard', key: 'dashboard' },
-    { name: 'Projects', key: 'projects' },
-    { name: 'Reports', key: 'reports' },
-    { name: 'Library', key: 'library' },
+    { name: 'Dashboard', key: 'dashboard', icon: <FaTachometerAlt /> },
+    { name: 'Projects', key: 'projects', icon: <FaFolderOpen /> },
+    { name: 'Reports', key: 'reports', icon: <FaChartBar /> },
+    { name: 'Library', key: 'library', icon: <FaBook /> },
 ];
 
 const SideBar = () => (
@@ -15,8 +16,9 @@ const SideBar = () => (
         <ul style={styles.list}>
             {sidebarItems.map(item => (
                 <li key={item.key} style={styles.listItem}>
-                    <Link to={`/${item.key}`} style={{ color: '#fff', textDecoration: 'none' }}>
-                        {item.name}
+                    <Link to={`/${item.key}`} style={styles.link}>
+                        <span style={styles.icon}>{item.icon}</span>
+                        <span>{item.name}</span>
                     </Link>
                 </li>
             ))}
@@ -49,12 +51,21 @@ const styles = {
         flex: 1,
     },
     listItem: {
+        marginBottom: '8px',
+    },
+    link: {
+        color: '#fff',
+        textDecoration: 'none',
+        display: 'flex',
+        alignItems: 'center',
         padding: '14px 32px',
-        cursor: 'pointer',
         fontSize: '1rem',
         borderRadius: '4px',
-        marginBottom: '8px',
         transition: 'background 0.2s',
+        gap: '10px', // space between icon and text
+    },
+    icon: {
+        fontSize: '1.1rem',
     },
 };
 
