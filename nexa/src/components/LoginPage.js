@@ -21,7 +21,6 @@ const LoginPage = ({ setIsAuthenticated }) => {
     };
 
     return (
-        // Your existing styled LoginPage component
         <div
             style={{
                 display: 'flex',
@@ -43,9 +42,13 @@ const LoginPage = ({ setIsAuthenticated }) => {
                     textAlign: 'center',
                 }}
             >
-                <h1 style={{ marginBottom: '1.5rem', color: '#333' }}>Welcome Back</h1>
+                <img
+                    src="\logo\android-chrome-192x192.png"
+                    alt="Login"
+                    style={{ width: '60px', marginBottom: '1.5rem' }}
+                />
                 <div style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555' }}>
+                    <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555', marginRight: '20rem' }}>
                         Username
                     </label>
                     <input
@@ -64,7 +67,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
                     />
                 </div>
                 <div style={{ marginBottom: '1.5rem' }}>
-                    <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555' }}>
+                    <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555', marginRight: '20rem' }}>
                         Password
                     </label>
                     <input
