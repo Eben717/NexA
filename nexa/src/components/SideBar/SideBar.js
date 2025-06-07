@@ -1,6 +1,6 @@
 // src/components/SideBar/SideBar.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaTachometerAlt, FaFolderOpen, FaChartBar, FaBook } from 'react-icons/fa';
 
 const sidebarItems = [
@@ -11,29 +11,35 @@ const sidebarItems = [
 ];
 
 const SideBar = () => {
+  const location = useLocation(); // from react-router-dom
+  const currentPath = location.pathname.slice(1); // get 'dashboard', 'projects', etc.
   const [hoveredItem, setHoveredItem] = useState(null);
 
   return (
     <aside style={styles.sidebar}>
       <div style={styles.header}>Menu</div>
       <ul style={styles.list}>
-        {sidebarItems.map(item => (
-          <li
-            key={item.key}
-            style={{
-              ...styles.listItem,
-              backgroundColor:
-                hoveredItem === item.key ? '#2e333d' : 'transparent', // Light grey on hover
-            }}
-            onMouseEnter={() => setHoveredItem(item.key)}
-            onMouseLeave={() => setHoveredItem(null)}
-          >
-            <Link to={`/${item.key}`} style={styles.link}>
-              <span style={styles.icon}>{item.icon}</span>
-              <span>{item.name}</span>
-            </Link>
-          </li>
-        ))}
+        {sidebarItems.map(item => {
+          const isActive = currentPath === item.key;
+          const isHovered = hoveredItem === item.key;
+
+          return (
+            <li
+              key={item.key}
+              style={{
+                ...styles.listItem,
+                backgroundColor: isActive || isHovered ? '#2e333d' : 'transparent',
+              }}
+              onMouseEnter={() => setHoveredItem(item.key)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
+              <Link to={`/${item.key}`} style={styles.link}>
+                <span style={styles.icon}>{item.icon}</span>
+                <span>{item.name}</span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </aside>
   );
