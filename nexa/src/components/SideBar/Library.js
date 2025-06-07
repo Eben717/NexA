@@ -1,48 +1,80 @@
 import React from 'react';
 
 const Library = () => {
-    const handleClick = (label) => {
-        // No action needed for click events
-    };
+
+    const [isClicked, setIsClicked] = React.useState(false);
 
     return (
         <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', alignItems: 'center', marginLeft: 'auto', transform: 'translateY(-94%)' }}>
             {/* Header */}
             <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>Library</h1>
-            
-            {/* Circles */}
-            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px', flexWrap: 'wrap', gap: '20px' }}>
-                {['Completed', 'In-Progress', 'Unexecuted', 'Project List'].map((label) => (
-                    <div
-                        key={label}
-                        onClick={() => handleClick(label)}
-                        style={{
-                            width: '120px',
-                            height: '120px',
-                            borderRadius: '50%',
-                            backgroundColor: '#007BFF',
-                            color: '#fff',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            textAlign: 'center',
-                            fontSize: '14px',
-                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'scale(1.1)';
-                            e.currentTarget.style.boxShadow = '0 6px 10px rgba(0, 0, 0, 0.15)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'scale(1)';
-                            e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-                        }}
-                    >
-                        {label}
-                    </div>
-                ))}
+            {/* Folder Icon*/}
+            <div
+                tabIndex={0}
+                style={{
+                    marginTop: '20px',
+                    marginBottom: '10px',
+                    display: 'inline-block',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    transition: 'transform 0.15s cubic-bezier(.17,.67,.83,.67)',
+                    transform: isClicked ? 'scale(1.15)' : 'scale(1)',
+                }}
+                onMouseDown={() => setIsClicked(true)}
+                onMouseUp={() => setIsClicked(false)}
+                onMouseLeave={() => setIsClicked(false)}
+                onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') setIsClicked(true);
+                }}
+                onKeyUp={e => {
+                    if (e.key === 'Enter' || e.key === ' ') setIsClicked(false);
+                }}
+                aria-label="Open Library Folder"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    style={{ display: 'block' }}
+                > 
+                    <rect
+                        x="2"
+                        y="7"
+                        width="20"
+                        height="13"
+                        rx="3"
+                        fill={isClicked ? "#FFF176" : undefined}
+                        style={{ transition: 'fill 0.2s' }}
+                        className="folder-body"
+                    />
+                    <path
+                        d="M2 7V5a2 2 0 0 1 2-2h5.17a2 2 0 0 1 1.41.59l1.83 1.83A2 2 0 0 0 13.83 6H20a2 2 0 0 1 2 2v2"
+                        fill="#FFFDE7"
+                    />
+                    <rect
+                        x="2"
+                        y="7"
+                        width="20"
+                        height="13"
+                        rx="3"
+                        stroke="#FBC02D"
+                        strokeWidth="1.5"
+                    />
+                </svg>
+                <div style=
+                {{ textAlign: 'center', marginTop: '8px', color: '#555', 
+                fontSize: '16px', fontWeight: 500 }}> Documents </div>
+                <style>{`
+                    .folder-body {
+                        fill: #FFEB3B;
+                        transition: fill 0.2s;
+                    }
+                    div[tabindex]:hover .folder-body {
+                        fill: #FFEE58;
+                    }
+                `}</style>
             </div>
         </div>
     );
