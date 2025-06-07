@@ -9,6 +9,7 @@ import Reports from './components/SideBar/reports';
 import ProfilePage from './components/NavBar/ProfilePage';
 import Logout from './components/NavBar/Logout';
 import Settings from './components/NavBar/Settings';
+import Library from './components/SideBar/Library';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
                     <Route path="/projects" element={isAuthenticated ? <Projects /> : <Navigate to="/" />} />
                     <Route path="/reports" element={isAuthenticated ? <Reports /> : <Navigate to="/" />} />
+                    <Route path="/library" element={isAuthenticated ? <Library /> : <Navigate to="/" />} />
                     <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />} />
                     <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
                     <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to="/" />} />
