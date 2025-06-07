@@ -1,7 +1,13 @@
 // src/components/SideBar/SideBar.js
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaTachometerAlt, FaFolderOpen, FaChartBar, FaBook } from 'react-icons/fa';
+import {
+  FaTachometerAlt,
+  FaFolderOpen,
+  FaChartBar,
+  FaBook,
+  FaBars,
+} from 'react-icons/fa';
 
 const sidebarItems = [
   { name: 'Dashboard', key: 'dashboard', icon: <FaTachometerAlt /> },
@@ -11,13 +17,22 @@ const sidebarItems = [
 ];
 
 const SideBar = () => {
-  const location = useLocation(); // from react-router-dom
-  const currentPath = location.pathname.slice(1); // get 'dashboard', 'projects', etc.
+  const location = useLocation();
+  const currentPath = location.pathname.slice(1);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleSidebar = () => setIsOpen(prev => !prev);
 
   return (
-    <aside style={styles.sidebar}>
-      <div style={styles.header}>Menu</div>
+    <aside style={{ ...styles.sidebar, width: isOpen ? '220px' : '60px' }}>
+      {/* Header with Menu and Drawer Icon */}
+      <div style={styles.header}>
+        <span style={{ ...styles.menuText, display: isOpen ? 'inline' : 'none' }}>Menu</span>
+        <FaBars onClick={toggleSidebar} style={styles.drawerIcon} />
+      </div>
+
+      {/* Sidebar Items */}
       <ul style={styles.list}>
         {sidebarItems.map(item => {
           const isActive = currentPath === item.key;
@@ -35,7 +50,7 @@ const SideBar = () => {
             >
               <Link to={`/${item.key}`} style={styles.link}>
                 <span style={styles.icon}>{item.icon}</span>
-                <span>{item.name}</span>
+                {isOpen && <span>{item.name}</span>}
               </Link>
             </li>
           );
@@ -47,7 +62,6 @@ const SideBar = () => {
 
 const styles = {
   sidebar: {
-    width: '220px',
     height: '100vh',
     background: '#23272f',
     color: '#fff',
@@ -55,13 +69,25 @@ const styles = {
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
+    transition: 'width 0.3s ease',
+    overflow: 'hidden',
   },
   header: {
     fontSize: '1.3rem',
     fontWeight: 'bold',
     marginBottom: '32px',
-    textAlign: 'center',
+    padding: '0 20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     letterSpacing: '1px',
+  },
+  menuText: {
+    fontSize: '1.3rem',
+  },
+  drawerIcon: {
+    cursor: 'pointer',
+    fontSize: '1.2rem',
   },
   list: {
     listStyle: 'none',
