@@ -108,7 +108,7 @@ const styles = {
     padding: '14px 32px',
     fontSize: '1rem',
     gap: '10px',
-  },
+  },  
   icon: {
     fontSize: '1.1rem',
   },

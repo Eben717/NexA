@@ -2,20 +2,22 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-const app = express();
 dotenv.config();
 
+const app = express();
+app.use(express.json());
+
 const PORT = process.env.PORT || 8000;
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/audits';
 
 mongoose
-.connect(MONGO_URL)
-.then(() => {
-    console.log('database connected successfully');
+  .connect(MONGO_URL)
+  .then(() => {
+    console.log('✅ Database connected successfully');
     app.listen(PORT, () => {
-        console.log(`server is running on port ${PORT}`);
+      console.log(`🚀 Server is running on port ${PORT}`);
     });
-})
-.catch((err) => {
-    console.error('database connection failed:', err);
-});
+  })
+  .catch((err) => {
+    console.error('❌ Database connection failed:', err);
+  });
