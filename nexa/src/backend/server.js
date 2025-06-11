@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-const PORT = 8000;
+const PORT = 2000;
 
 mongoose
   .connect(process.env.MONGO_URL)
