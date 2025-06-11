@@ -7,11 +7,10 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 8000;
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/audits';
+const PORT = 8000;
 
 mongoose
-  .connect(MONGO_URL)
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log('✅ Database connected successfully');
     app.listen(PORT, () => {
