@@ -1,9 +1,13 @@
+// src/backend/models/Project.js
 import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  status: { type: String, enum: ['Completed', 'In-Progress', 'Unexecuted'], required: true },
-  description: { type: String },
-}, { timestamps: true });
+  AuditsCompleted: String,
+  AuditsInProgress: String,
+  AuditsNotCompleted: String,
+  AllProjects: String,
+});
 
-export default mongoose.model('Project', projectSchema);
+const Project = mongoose.model('Project', projectSchema);
+
+export default Project;

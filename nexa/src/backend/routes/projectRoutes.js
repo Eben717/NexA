@@ -1,26 +1,20 @@
+// src/backend/routes/projectRoutes.js
 import express from 'express';
-import Project from '../models/Project.js';
+import Project from '../models/projects.js';
 
 const router = express.Router();
 
-// CREATE
-router.post('/', async (req, res) => {
-  try {
-    const project = new Project(req.body);
-    const saved = await project.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// READ ALL
+// GET /api/projects
 router.get('/', async (req, res) => {
   try {
-    const projects = await Project.find();
-    res.status(200).json(projects);
+    const data = await Project.find(); // Just get the first document
+    if (data) {
+      res.json({ allProjects: data.AllProjects });
+    } else {
+      res.status(404).json({ message: 'No project data found' });
+    }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: 'Error retrieving projects', error: err });
   }
 });
 
