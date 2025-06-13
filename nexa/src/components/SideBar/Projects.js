@@ -1,32 +1,28 @@
 import React, { useState } from 'react';
 
 const Projects = () => {
-  const [selectedLabel, setSelectedLabel] = useState(null);
-  const [allProjects, setAllProjects] = useState('');
+  const [projectList, setProjectList] = useState([]);
 
-  const handleClick = (label) => {
-    setSelectedLabel(label);
-
+  const handleClick = async (label) => {
     if (label === 'Project List') {
-      fetch('http://localhost:2000/api/projects')
-        .then((res) => res.json())
-        .then((data) => {
-          setAllProjects(data.allProjects || 'No data found');
-        })
-        .catch((err) => {
-          console.error('Error fetching AllProjects:', err);
-          setAllProjects('Error fetching data');
-        });
-    } else {
-      setAllProjects('');
+      try {
+        const response = await fetch('http://localhost:2000/api/projects');
+        const data = await response.json();
+        if (data.projects) {
+          setProjectList(data.projects);
+        } else {
+          console.error('No projects found');
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
     }
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', marginLeft: 'auto' }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', marginLeft: 'auto', transform: 'translateY(-94%)' }}>
       <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>Projects</h1>
 
-      {/* Circles */}
       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px', flexWrap: 'wrap', gap: '20px' }}>
         {['Completed', 'In-Progress', 'Unexecuted', 'Project List'].map((label) => (
           <div
@@ -61,11 +57,21 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* Display AllProjects */}
-      {selectedLabel === 'Project List' && (
+      {/* Display Project List */}
+      {projectList.length > 0 && (
         <div style={{ marginTop: '40px' }}>
-          <h2 style={{ color: '#007BFF' }}>All Projects</h2>
-          <p>{allProjects}</p>
+          <h2>All Projects</h2>
+          <ul>
+            {projectList.map((project, index) => (
+              <li key={index}>
+                <strong>AllProjects:</strong> {project.AllProjects} <br />
+                <strong>AuditsCompleted:</strong> {project.AuditsCompleted} <br />
+                <strong>AuditsInProgress:</strong> {project.AuditsInProgress} <br />
+                <strong>AuditsNotCompleted:</strong> {project.AuditsNotCompleted}
+                <hr />
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
