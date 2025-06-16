@@ -4,10 +4,10 @@ import Project from '../models/projects.js';
 
 const router = express.Router();
 
-// GET ALL projects
+// GET all project documents
 router.get('/', async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find(); // fetch all fields
     if (projects.length > 0) {
       res.json({ projects });
     } else {
@@ -19,47 +19,59 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET ONLY AuditsCompleted
+// GET audits completed
 router.get('/completed', async (req, res) => {
   try {
-    const auditsCompleted = await Project.find({}, { AuditsCompleted: 1, _id: 0 });
+    const documents = await Project.find({}, 'AuditsCompleted');
+    const auditsCompleted = documents
+      .filter(doc => doc.AuditsCompleted && doc.AuditsCompleted.trim() !== '')
+      .map(doc => ({ AuditsCompleted: doc.AuditsCompleted }));
+
     if (auditsCompleted.length > 0) {
       res.json({ auditsCompleted });
     } else {
-      res.status(404).json({ message: 'No completed audits found' });
+      res.status(404).json({ message: 'No completed projects found' });
     }
   } catch (err) {
-    console.error('❌ Error fetching completed audits:', err);
+    console.error('❌ Error fetching auditsCompleted:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// GET ONLY AuditsInProgress
+// GET audits in progress
 router.get('/in-progress', async (req, res) => {
   try {
-    const auditsInProgress = await Project.find({}, { AuditsInProgress: 1, _id: 0 });
+    const documents = await Project.find({}, 'AuditsInProgress');
+    const auditsInProgress = documents
+      .filter(doc => doc.AuditsInProgress && doc.AuditsInProgress.trim() !== '')
+      .map(doc => ({ AuditsInProgress: doc.AuditsInProgress }));
+
     if (auditsInProgress.length > 0) {
       res.json({ auditsInProgress });
     } else {
       res.status(404).json({ message: 'No in-progress audits found' });
     }
   } catch (err) {
-    console.error('❌ Error fetching in-progress audits:', err);
+    console.error('❌ Error fetching auditsInProgress:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// GET ONLY AuditsNotCompleted
+// GET audits not completed
 router.get('/not-completed', async (req, res) => {
   try {
-    const auditsNotCompleted = await Project.find({}, { AuditsNotCompleted: 1, _id: 0 });
+    const documents = await Project.find({}, 'AuditsNotCompleted');
+    const auditsNotCompleted = documents
+      .filter(doc => doc.AuditsNotCompleted && doc.AuditsNotCompleted.trim() !== '')
+      .map(doc => ({ AuditsNotCompleted: doc.AuditsNotCompleted }));
+
     if (auditsNotCompleted.length > 0) {
       res.json({ auditsNotCompleted });
     } else {
       res.status(404).json({ message: 'No unexecuted audits found' });
     }
   } catch (err) {
-    console.error('❌ Error fetching unexecuted audits:', err);
+    console.error('❌ Error fetching auditsNotCompleted:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
