@@ -1,29 +1,83 @@
+// src/components/SideBar/Projects.js
 import React, { useState } from 'react';
 
 const Projects = () => {
   const [projectList, setProjectList] = useState([]);
+  const [sectionTitle, setSectionTitle] = useState('');
 
   const handleClick = async (label) => {
-    if (label === 'Project List') {
-      try {
-        const response = await fetch('http://localhost:2000/api/projects');
-        const data = await response.json();
-        if (data.projects) {
-          setProjectList(data.projects);
-        } else {
-          console.error('No projects found');
-        }
-      } catch (error) {
-        console.error('Error fetching projects:', error);
+    let endpoint = '';
+    let title = '';
+
+    switch (label) {
+      case 'Completed':
+        endpoint = 'completed';
+        title = 'Audits Completed';
+        break;
+      case 'In-Progress':
+        endpoint = 'in-progress';
+        title = 'Audits In Progress';
+        break;
+      case 'Unexecuted':
+        endpoint = 'not-completed';
+        title = 'Audits Not Completed';
+        break;
+      case 'Project List':
+        endpoint = '';
+        title = 'All Projects';
+        break;
+      default:
+        return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
+      const data = await response.json();
+
+      if (label === 'Project List' && data.projects) {
+        setProjectList(data.projects);
+      } else if (data.auditsCompleted || data.auditsInProgress || data.auditsNotCompleted) {
+        setProjectList([
+          ...(data.auditsCompleted || []),
+          ...(data.auditsInProgress || []),
+          ...(data.auditsNotCompleted || []),
+        ]);
+      } else {
+        const key = Object.keys(data)[0];
+        setProjectList(data[key] || []);
       }
+
+      setSectionTitle(title);
+    } catch (error) {
+      console.error('❌ Error fetching data:', error);
     }
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', marginLeft: 'auto', transform: 'translateY(-94%)' }}>
-      <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>Projects</h1>
+    <div
+      style={{
+        padding: '20px',
+        fontFamily: 'Arial, sans-serif',
+        backgroundColor: '#f4f6f9',
+        minHeight: '100vh',
+        width: '79.2%',
+        marginLeft: 'auto',
+        transform: 'translateY(-94%)',
+      }}
+    >
+      <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>
+        Projects
+      </h1>
 
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '40px', flexWrap: 'wrap', gap: '20px' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          marginTop: '40px',
+          flexWrap: 'wrap',
+          gap: '20px',
+        }}
+      >
         {['Completed', 'In-Progress', 'Unexecuted', 'Project List'].map((label) => (
           <div
             key={label}
@@ -57,17 +111,33 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* Display Project List */}
+      {/* Display Result List */}
       {projectList.length > 0 && (
         <div style={{ marginTop: '40px' }}>
-          <h2>All Projects</h2>
+          <h2>{sectionTitle}</h2>
           <ul>
             {projectList.map((project, index) => (
               <li key={index}>
-                <strong>AllProjects:</strong> {project.AllProjects} <br />
-                <strong>AuditsCompleted:</strong> {project.AuditsCompleted} <br />
-                <strong>AuditsInProgress:</strong> {project.AuditsInProgress} <br />
-                <strong>AuditsNotCompleted:</strong> {project.AuditsNotCompleted}
+                {project.AllProjects && (
+                  <>
+                    <strong>AllProjects:</strong> {project.AllProjects} <br />
+                  </>
+                )}
+                {project.AuditsCompleted && (
+                  <>
+                    <strong>AuditsCompleted:</strong> {project.AuditsCompleted} <br />
+                  </>
+                )}
+                {project.AuditsInProgress && (
+                  <>
+                    <strong>AuditsInProgress:</strong> {project.AuditsInProgress} <br />
+                  </>
+                )}
+                {project.AuditsNotCompleted && (
+                  <>
+                    <strong>AuditsNotCompleted:</strong> {project.AuditsNotCompleted} <br />
+                  </>
+                )}
                 <hr />
               </li>
             ))}
