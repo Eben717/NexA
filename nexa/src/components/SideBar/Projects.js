@@ -1,4 +1,3 @@
-// src/components/SideBar/Projects.js
 import React, { useState } from 'react';
 
 const Projects = () => {
@@ -34,15 +33,11 @@ const Projects = () => {
       const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
       const data = await response.json();
 
+      // Determine the right key to extract
       if (label === 'Project List' && data.projects) {
         setProjectList(data.projects);
-      } else if (data.auditsCompleted || data.auditsInProgress || data.auditsNotCompleted) {
-        setProjectList([
-          ...(data.auditsCompleted || []),
-          ...(data.auditsInProgress || []),
-          ...(data.auditsNotCompleted || []),
-        ]);
       } else {
+        // Extract whichever key exists
         const key = Object.keys(data)[0];
         setProjectList(data[key] || []);
       }
@@ -118,26 +113,11 @@ const Projects = () => {
           <ul>
             {projectList.map((project, index) => (
               <li key={index}>
-                {project.AllProjects && (
-                  <>
-                    <strong>AllProjects:</strong> {project.AllProjects} <br />
-                  </>
-                )}
-                {project.AuditsCompleted && (
-                  <>
-                    <strong>AuditsCompleted:</strong> {project.AuditsCompleted} <br />
-                  </>
-                )}
-                {project.AuditsInProgress && (
-                  <>
-                    <strong>AuditsInProgress:</strong> {project.AuditsInProgress} <br />
-                  </>
-                )}
-                {project.AuditsNotCompleted && (
-                  <>
-                    <strong>AuditsNotCompleted:</strong> {project.AuditsNotCompleted} <br />
-                  </>
-                )}
+                {Object.entries(project).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key}:</strong> {value}
+                  </div>
+                ))}
                 <hr />
               </li>
             ))}
