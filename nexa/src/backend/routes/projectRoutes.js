@@ -5,11 +5,11 @@ import Project from '../models/projects.js';
 const router = express.Router();
 
 // GET all project documents
-router.get('/completed', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const projects = await Project.find(); // fetch all fields
     if (projects.length > 0) {
-      res.json({ AllProjects: [project.AllProjects]});
+      res.json(projects);
     } else {
       res.status(404).json({ message: 'No projects found' });
     }
