@@ -5,16 +5,19 @@ import Project from '../models/projects.js';
 const router = express.Router();
 
 // GET all project documents
-router.get('/', async (req, res) => {
+router.get('/all-projects', async (req, res) => {
   try {
-    const projects = await Project.find(); // fetch all fields
-    if (projects.length > 0) {
-      res.json(projects);
+    const allProjects = await Project.find({}, 'AllProjects');
+    console.log('🧪 Distinct AllProjects:', allProjects);
+
+    if (allProjects.length > 0) {
+      const formatted = allProjects.map(p => ({ AllProjects: p }));
+      res.json({ projects: formatted });
     } else {
-      res.status(404).json({ message: 'No projects found' });
+      res.status(404).json({ message: 'No project names found' });
     }
   } catch (err) {
-    console.error('❌ Error fetching projects:', err);
+    console.error('❌ Error fetching AllProjects:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });

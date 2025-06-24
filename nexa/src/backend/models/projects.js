@@ -5,9 +5,9 @@ const projectSchema = new mongoose.Schema({
   AuditsCompleted: String,
   AuditsInProgress: String,
   AuditsNotCompleted: String,
-  AllProjects: String,
+  AllProjects: String
 });
 
-const Project = mongoose.model('Project', projectSchema);
+const Project = mongoose.model('Project', projectSchema, 'nexa');
 
 export default Project;
