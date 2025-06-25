@@ -22,7 +22,7 @@ const Projects = () => {
         title = 'Audits Not Completed';
         break;
       case 'Project List':
-        endpoint = '';
+        endpoint = 'all-projects';
         title = 'All Projects';
         break;
       default:
