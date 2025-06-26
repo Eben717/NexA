@@ -14,6 +14,10 @@ const navigate = useNavigate();
     navigate('/all-projects');
     return;
   }
+  if (label === 'Completed') {
+    navigate('/completed');
+    return;
+  }
 
   let endpoint = '';
   let title = '';

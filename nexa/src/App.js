@@ -11,6 +11,7 @@ import Logout from './components/NavBar/Logout';
 import Settings from './components/NavBar/Settings';
 import Library from './components/SideBar/Library';
 import AllProjects from './components/SideBar/AllProjects';
+import Completed from './components/SideBar/Completed';
 
 
 
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
                     <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to="/" />} />
                     <Route path="/all-projects" element={isAuthenticated ? <AllProjects /> : <Navigate to="/" />} />
+                    <Route path="/completed" element={isAuthenticated ? <Completed /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>
