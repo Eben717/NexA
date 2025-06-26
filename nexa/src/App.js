@@ -12,7 +12,8 @@ import Settings from './components/NavBar/Settings';
 import Library from './components/SideBar/Library';
 import AllProjects from './components/SideBar/AllProjects';
 import Completed from './components/SideBar/Completed';
-
+import Inprogress from './components/SideBar/InProgress';
+import NotCompleted from './components/SideBar/NotCompleted';
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
                     <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to="/" />} />
                     <Route path="/all-projects" element={isAuthenticated ? <AllProjects /> : <Navigate to="/" />} />
                     <Route path="/completed" element={isAuthenticated ? <Completed /> : <Navigate to="/" />} />
+                    <Route path="/in-progress" element={isAuthenticated ? <Inprogress /> : <Navigate to="/" />} />
+                    <Route path="/not-completed" element={isAuthenticated ? <NotCompleted /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>

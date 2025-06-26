@@ -7,7 +7,7 @@ const Inprogress = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await fetch('http://localhost:2000/api/projects/completed');
+        const res = await fetch('http://localhost:2000/api/projects/in-progress');
         const data = await res.json();
         if (data.projects) {
           setProjects(data.projects);

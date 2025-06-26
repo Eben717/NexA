@@ -18,6 +18,14 @@ const navigate = useNavigate();
     navigate('/completed');
     return;
   }
+  if (label === 'In-Progress') {
+    navigate('/in-progress');
+    return;
+  }
+  if (label === 'Unexecuted') {
+    navigate('/not-completed');
+    return;
+  }
 
   let endpoint = '';
   let title = '';
