@@ -21,8 +21,20 @@ const AllProjects = () => {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>All Projects</h2>
+     <div
+      style={{
+        padding: '20px',
+        fontFamily: 'Arial, sans-serif',
+        backgroundColor: '#f4f6f9',
+        minHeight: '100vh',
+        width: '79.2%',
+        marginLeft: 'auto',
+        transform: 'translateY(-94%)',
+      }}
+    >
+      <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>
+       Project List
+      </h1>
       <ul>
         {projects.map((project, index) => (
           <li key={index}>
