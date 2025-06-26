@@ -10,8 +10,8 @@ import ProfilePage from './components/NavBar/ProfilePage';
 import Logout from './components/NavBar/Logout';
 import Settings from './components/NavBar/Settings';
 import Library from './components/SideBar/Library';
-import InProgressProjects from './components/SideBar/InProgressProjects';
-import CompletedProjects from './components/SideBar/CompletedProjects';
+import AllProjects from './components/SideBar/AllProjects';
+
 
 
 function App() {
@@ -31,6 +31,7 @@ function App() {
                     <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />} />
                     <Route path="/logout" element={isAuthenticated ? <Logout /> : <Navigate to="/" />} />
                     <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to="/" />} />
+                    <Route path="/all-projects" element={isAuthenticated ? <AllProjects /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>

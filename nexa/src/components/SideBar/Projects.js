@@ -1,52 +1,51 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Projects = () => {
   const [projectList, setProjectList] = useState([]);
   const [sectionTitle, setSectionTitle] = useState('');
 
+const navigate = useNavigate();
+
   const handleClick = async (label) => {
-    let endpoint = '';
-    let title = '';
+  if (label === 'Project List') {
+    navigate('/all-projects');
+    return;
+  }
 
-    switch (label) {
-      case 'Completed':
-        endpoint = 'completed';
-        title = 'Audits Completed';
-        break;
-      case 'In-Progress':
-        endpoint = 'in-progress';
-        title = 'Audits In Progress';
-        break;
-      case 'Unexecuted':
-        endpoint = 'not-completed';
-        title = 'Audits Not Completed';
-        break;
-      case 'Project List':
-        endpoint = 'all-projects';
-        title = 'All Projects';
-        break;
-      default:
-        return;
-    }
+  let endpoint = '';
+  let title = '';
 
-    try {
-      const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
-      const data = await response.json();
+  switch (label) {
+    case 'Completed':
+      endpoint = 'completed';
+      title = 'Audits Completed';
+      break;
+    case 'In-Progress':
+      endpoint = 'in-progress';
+      title = 'Audits In Progress';
+      break;
+    case 'Unexecuted':
+      endpoint = 'not-completed';
+      title = 'Audits Not Completed';
+      break;
+    default:
+      return;
+  }
 
-      // Determine the right key to extract
-      if (label === 'Project List' && data.projects) {
-        setProjectList(data.projects);
-      } else {
-        // Extract whichever key exists
-        const key = Object.keys(data)[0];
-        setProjectList(data[key] || []);
-      }
+  try {
+    const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
+    const data = await response.json();
+    const key = Object.keys(data)[0];
+    setProjectList(data[key] || []);
+    setSectionTitle(title);
+  } catch (error) {
+    console.error('❌ Error fetching data:', error);
+  }
+};
 
-      setSectionTitle(title);
-    } catch (error) {
-      console.error('❌ Error fetching data:', error);
-    }
-  };
 
   return (
     <div
