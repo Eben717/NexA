@@ -10,6 +10,8 @@ import ProfilePage from './components/NavBar/ProfilePage';
 import Logout from './components/NavBar/Logout';
 import Settings from './components/NavBar/Settings';
 import Library from './components/SideBar/Library';
+import InProgressProjects from './components/SideBar/InProgressProjects';
+import CompletedProjects from './components/SideBar/CompletedProjects';
 
 
 function App() {
