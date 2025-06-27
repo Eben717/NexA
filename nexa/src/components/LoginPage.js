@@ -56,7 +56,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
                         id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="example@mail.com"
+                        placeholder="name@example.com"
                         style={{
                             width: '100%',
                             padding: '0.75rem',
