@@ -1,8 +1,9 @@
-// src/components/AllProjects.js
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 👈 Add this
 
 const AllProjects = () => {
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate(); // 👈 Initialize navigation
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -21,7 +22,7 @@ const AllProjects = () => {
   }, []);
 
   return (
-     <div
+    <div
       style={{
         padding: '20px',
         fontFamily: 'Arial, sans-serif',
@@ -32,9 +33,27 @@ const AllProjects = () => {
         transform: 'translateY(-94%)',
       }}
     >
-      <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>
-       Project List
+      {/* ✅ Back Button */}
+      <button
+        onClick={() => navigate('/projects')}
+        style={{
+          marginBottom: '20px',
+          padding: '10px 15px',
+          backgroundColor: '#007BFF',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          float: 'left',
+        }}
+      >
+        ← Back
+      </button>
+
+      <h1 style={{ clear: 'both', borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>
+        Project List
       </h1>
+
       <ul>
         {projects.map((project, index) => (
           <li key={index}>
