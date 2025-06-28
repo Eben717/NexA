@@ -4,15 +4,31 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
     const navigate = useNavigate();
 
     const handleSignIn = () => {
-        console.log('Sign In clicked', { username, password });
+        let hasError = false;
 
-        // Placeholder authentication logic
-        if (username && password) {
-            setIsAuthenticated(true);  // Update authentication state
-            navigate('/dashboard');     // Redirect to dashboard
+        if (!username) {
+            setUsernameError('Enter username');
+            hasError = true;
+        } else {
+            setUsernameError('');
+        }
+
+        if (!password) {
+            setPasswordError('Enter password');
+            hasError = true;
+        } else {
+            setPasswordError('');
+        }
+
+        if (!hasError) {
+            setIsAuthenticated(true);
+            navigate('/dashboard');
         }
     };
 
@@ -47,8 +63,16 @@ const LoginPage = ({ setIsAuthenticated }) => {
                     alt="Login"
                     style={{ width: '60px', marginBottom: '1.5rem' }}
                 />
-                <div style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555', marginRight: '20rem' }}>
+                <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+                    <label
+                        htmlFor="username"
+                        style={{
+                            display: 'block',
+                            marginBottom: '0.5rem',
+                            fontWeight: 'bold',
+                            color: '#555',
+                        }}
+                    >
                         Username
                     </label>
                     <input
@@ -65,9 +89,22 @@ const LoginPage = ({ setIsAuthenticated }) => {
                             fontSize: '1rem',
                         }}
                     />
+                    {usernameError && (
+                        <p style={{ color: 'red', fontSize: '0.8rem', marginTop: '0.25rem' }}>
+                            ❗ {usernameError}
+                        </p>
+                    )}
                 </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555', marginRight: '20rem' }}>
+                <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+                    <label
+                        htmlFor="password"
+                        style={{
+                            display: 'block',
+                            marginBottom: '0.5rem',
+                            fontWeight: 'bold',
+                            color: '#555',
+                        }}
+                    >
                         Password
                     </label>
                     <input
@@ -84,6 +121,11 @@ const LoginPage = ({ setIsAuthenticated }) => {
                             fontSize: '1rem',
                         }}
                     />
+                    {passwordError && (
+                        <p style={{ color: 'red', fontSize: '0.8rem', marginTop: '0.25rem' }}>
+                            ❗ {passwordError}
+                        </p>
+                    )}
                 </div>
                 <button
                     onClick={handleSignIn}
@@ -106,9 +148,15 @@ const LoginPage = ({ setIsAuthenticated }) => {
                 </button>
                 <p
                     onClick={handleCreateAccount}
-                    style={{ marginTop: '1rem', color: '#007BFF', cursor: 'pointer', fontSize: '0.9rem' }}
+                    style={{
+                        marginTop: '1rem',
+                        color: '#007BFF',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem',
+                    }}
                 >
-                    Don't have an account? <span style={{ textDecoration: 'underline' }}>Create one</span>
+                    Don't have an account?{' '}
+                    <span style={{ textDecoration: 'underline' }}>Create one</span>
                 </p>
             </div>
         </div>
