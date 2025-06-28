@@ -11,9 +11,13 @@ const LoginPage = ({ setIsAuthenticated }) => {
 
     const handleSignIn = () => {
         let hasError = false;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!username) {
             setUsernameError('Enter username');
+            hasError = true;
+        } else if (!emailRegex.test(username)) {
+            setUsernameError('Incorrect format');
             hasError = true;
         } else {
             setUsernameError('');
