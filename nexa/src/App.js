@@ -16,6 +16,8 @@ import Inprogress from './components/SideBar/InProgress';
 import NotCompleted from './components/SideBar/NotCompleted';
 import CompletedReports from './components/SideBar/completedreports';
 import InprogressReports from './components/SideBar/inprogressreports';
+import DueReports from './components/SideBar/duereport';
+import ReportsList from './components/SideBar/reportslist';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,6 +42,8 @@ function App() {
                     <Route path="/not-completed" element={isAuthenticated ? <NotCompleted /> : <Navigate to="/" />} />
                     <Route path="/completed-reports" element={isAuthenticated ? <CompletedReports /> : <Navigate to="/" />} />
                     <Route path="/in-progress-reports" element={isAuthenticated ? <InprogressReports /> : <Navigate to="/" />} />
+                    <Route path="/due-reports" element={isAuthenticated ? <DueReports /> : <Navigate to="/" />} />
+                    <Route path="/reports-list" element={isAuthenticated ? <ReportsList /> : <Navigate to="/" />} />
                 </Routes>
             </div>
         </Router>

@@ -10,7 +10,7 @@ const navigate = useNavigate();
 
   const handleClick = async (label) => {
   if (label === 'Reports List') {
-    navigate('/all-reports');
+    navigate('/reports-list');
     return;
   }
   if (label === 'Completed') {
