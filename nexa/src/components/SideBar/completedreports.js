@@ -5,7 +5,17 @@ const CompletedReports = ({ reports }) => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div
+      style={{
+        padding: '20px',
+        fontFamily: 'Arial, sans-serif',
+        backgroundColor: '#f4f6f9',
+        minHeight: '100vh',
+        width: '79.2%',
+        marginLeft: 'auto',
+        transform: 'translateY(-94%)',
+      }}
+    >
       <button
         onClick={() => navigate(-1)} // 👈 Go back one step in history
         style={{
@@ -21,7 +31,10 @@ const CompletedReports = ({ reports }) => {
         ← Back
       </button>
 
-      <h2>Completed Reports</h2>
+       <h1 style={{ clear: 'both', borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>
+        Completed Reports
+      </h1>
+
       <ul>
         {reports?.map((report, index) => (
           <li key={index}>
