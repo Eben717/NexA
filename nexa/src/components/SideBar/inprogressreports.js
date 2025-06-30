@@ -32,7 +32,7 @@ const InprogressReports = ({ reports }) => {
       </button>
 
        <h1 style={{ clear: 'both', borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>
-        Inprogress Reports
+        Reports In Progress
       </h1>
 
       <ul>
