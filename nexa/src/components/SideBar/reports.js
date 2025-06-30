@@ -1,9 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Reports = () => {
-    const handleClick = (label) => {
-        // No action needed for click events
-    };
+
+const [reportsList, setReportsList] = useState([]);
+  const [sectionTitle, setSectionTitle] = useState('');
+
+const navigate = useNavigate();
+
+  const handleClick = async (label) => {
+  if (label === 'Reports List') {
+    navigate('/all-reports');
+    return;
+  }
+  if (label === 'Completed') {
+    navigate('/completed-reports');
+    return;
+  }
+  if (label === 'In-Progress') {
+    navigate('/in-progress-reports');
+    return;
+  }
+  if (label === 'Due') {
+    navigate('/due-reports');
+    return;
+  }
+
+  let endpoint = '';
+  let title = '';
+
+  switch (label) {
+    case 'Completed':
+      endpoint = 'completed';
+      title = 'Reports Completed';
+      break;
+    case 'In-Progress':
+      endpoint = 'in-progress';
+      title = 'Reports In Progress';
+      break;
+    case 'Due':
+      endpoint = 'not-completed';
+      title = 'Audits Not Completed';
+      break;
+    default:
+      return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
+    const data = await response.json();
+    const key = Object.keys(data)[0];
+    setReportsList(data[key] || []);
+    setSectionTitle(title);
+  } catch (error) {
+    console.error('❌ Error fetching data:', error);
+  }
+};
+
 
     return (
         <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', alignItems: 'center', marginLeft: 'auto', transform: 'translateY(-94%)' }}>
