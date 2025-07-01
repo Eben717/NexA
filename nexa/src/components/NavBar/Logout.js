@@ -2,19 +2,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Logout = () => {
+const Logout = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // ✅ Clear authentication data (if stored in localStorage, sessionStorage, or cookies)
-    localStorage.removeItem('token'); // or whatever you're using
+    // Clear session or token
     sessionStorage.clear();
+    localStorage.removeItem('token');
 
-    // ✅ Redirect to login page
+    // Update auth state
+    setIsAuthenticated(false);
+
+    // Navigate to login
     navigate('/');
-  }, [navigate]);
+  }, [navigate, setIsAuthenticated]);
 
-  return null; // or a loading spinner/message
+  return null;
 };
 
 export default Logout;
