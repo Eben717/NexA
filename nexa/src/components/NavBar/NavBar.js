@@ -81,13 +81,15 @@ const NavBar = () => {
 
     return (
         <nav style={styles.navbar}>
-            <a href="/" style={styles.logo}>
-                <img 
-                    src="\logo\android-chrome-192x192.png" 
-                    alt="Logo" 
-                    style={{ height: '40px', width: '40px' }} 
+            {/* ✅ Use React Router Link to avoid page reload */}
+            <Link to="/dashboard" style={styles.logo}>
+                <img
+                    src="/logo/android-chrome-192x192.png"
+                    alt="Logo"
+                    style={{ height: '40px', width: '40px' }}
                 />
-            </a>
+            </Link>
+
             <div style={styles.searchContainer}>
                 <input
                     type="text"
@@ -96,6 +98,7 @@ const NavBar = () => {
                 />
                 <FaSearch style={styles.searchIcon} />
             </div>
+
             <div style={styles.iconsContainer}>
                 <FaBell style={styles.icon} title="Notifications" />
                 <div style={{ position: 'relative' }}>
@@ -110,7 +113,7 @@ const NavBar = () => {
                                 ...styles.dropdown,
                                 display: 'flex',
                                 flexDirection: 'column',
-                                alignItems: 'stretch'
+                                alignItems: 'stretch',
                             }}
                         >
                             <Link
