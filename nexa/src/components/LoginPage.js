@@ -7,56 +7,84 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#f0f2f5',
-        fontFamily: 'Arial, sans-serif',
+        backgroundColor: '#f4f8fb',
+        fontFamily: 'Segoe UI, Arial, sans-serif',
     },
     card: {
         backgroundColor: '#fff',
-        padding: '2rem',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        padding: '2.5rem 2rem',
+        borderRadius: '10px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
         width: '100%',
         maxWidth: '400px',
         textAlign: 'center',
     },
+    logo: {
+        width: '60px',
+        marginBottom: '1rem',
+    },
+    title: {
+        fontSize: '1.5rem',
+        fontWeight: '600',
+        color: '#1a3a6b',
+        marginBottom: '0.3rem',
+        letterSpacing: '0.5px',
+    },
+    subtitle: {
+        fontSize: '1rem',
+        color: '#4a6fa5',
+        marginBottom: '2rem',
+    },
     input: {
         width: '100%',
-        padding: '0.75rem',
-        borderRadius: '4px',
-        border: '1px solid #ccc',
+        padding: '0.7rem',
+        borderRadius: '5px',
+        border: '1px solid #b0c4de',
         fontSize: '1rem',
+        marginBottom: '0.5rem',
+        backgroundColor: '#f7fbff',
     },
     label: {
         display: 'block',
-        marginBottom: '0.5rem',
-        fontWeight: 'bold',
-        color: '#555',
+        marginBottom: '0.3rem',
+        fontWeight: '500',
+        color: '#1a3a6b',
     },
     error: {
-        color: 'red',
-        fontSize: '0.8rem',
-        marginTop: '0.25rem',
+        color: '#d9534f',
+        fontSize: '0.85rem',
+        marginTop: '0.15rem',
+        marginBottom: '0.3rem',
     },
     button: {
         width: '100%',
-        padding: '0.75rem',
-        borderRadius: '50px',
+        padding: '0.8rem',
+        borderRadius: '5px',
         border: 'none',
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#1a3a6b',
         color: '#fff',
-        fontSize: '1rem',
+        fontSize: '1.1rem',
         fontWeight: 'bold',
         cursor: 'pointer',
+        marginTop: '0.5rem',
+        marginBottom: '1rem',
         transition: 'background-color 0.3s ease',
     },
+    buttonHover: {
+        backgroundColor: '#274e8e',
+    },
     link: {
-        marginTop: '1rem',
         color: '#007BFF',
         cursor: 'pointer',
-        fontSize: '0.9rem',
-    },
-    underline: {
+        fontSize: '0.95rem',
         textDecoration: 'underline',
+        marginTop: '0.5rem',
+        display: 'inline-block',
+    },
+    footer: {
+        marginTop: '2rem',
+        fontSize: '0.85rem',
+        color: '#adb5bd',
     },
 };
 
@@ -65,6 +93,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [buttonHover, setButtonHover] = useState(false);
     const navigate = useNavigate();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,20 +103,20 @@ const LoginPage = ({ setIsAuthenticated }) => {
         let hasError = false;
 
         if (!email) {
-            setEmailError('Enter email');
+            setEmailError('Please enter your email address.');
             hasError = true;
         } else if (!emailRegex.test(email)) {
-            setEmailError('Incorrect format');
+            setEmailError('Invalid email format.');
             hasError = true;
         } else {
             setEmailError('');
         }
 
         if (!password) {
-            setPasswordError('Enter password');
+            setPasswordError('Please enter your password.');
             hasError = true;
         } else if (password.length < 6) {
-            setPasswordError('Password must be at least 6 characters');
+            setPasswordError('Password must be at least 6 characters.');
             hasError = true;
         } else {
             setPasswordError('');
@@ -103,18 +132,27 @@ const LoginPage = ({ setIsAuthenticated }) => {
         navigate('/register');
     };
 
+    const handleForgotPassword = () => {
+        navigate('/forgot-password');
+    };
+
     return (
         <div style={styles.container}>
             <div style={styles.card}>
                 <img
                     src="/logo/android-chrome-192x192.png"
-                    alt="Login"
-                    style={{ width: '60px', marginBottom: '1.5rem' }}
+                    alt="Audit System Logo"
+                    style={styles.logo}
                 />
+                <div style={styles.title}>NexA Audit Portal</div>
+                <div style={styles.subtitle}>
+                  Welcome 
+                  <p>Please sign in to continue.</p> 
+                </div>
                 <form onSubmit={handleSignIn} noValidate>
                     <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
                         <label htmlFor="email" style={styles.label}>
-                            Email
+                            Email Address
                         </label>
                         <input
                             type="email"
@@ -124,21 +162,21 @@ const LoginPage = ({ setIsAuthenticated }) => {
                                 setEmail(e.target.value);
                                 setEmailError('');
                             }}
-                            placeholder="name@example.com"
+                            placeholder="your.email@firm.com"
                             style={styles.input}
                             aria-describedby="email-error"
                         />
                         {emailError && (
-                            <p
+                            <div
                                 id="email-error"
                                 style={styles.error}
                                 aria-live="polite"
                             >
-                                ❗ {emailError}
-                            </p>
+                                {emailError}
+                            </div>
                         )}
                     </div>
-                    <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+                    <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
                         <label htmlFor="password" style={styles.label}>
                             Password
                         </label>
@@ -150,30 +188,45 @@ const LoginPage = ({ setIsAuthenticated }) => {
                                 setPassword(e.target.value);
                                 setPasswordError('');
                             }}
-                            placeholder="password"
+                            placeholder="Enter your password"
                             style={styles.input}
                             aria-describedby="password-error"
                         />
                         {passwordError && (
-                            <p
+                            <div
                                 id="password-error"
                                 style={styles.error}
                                 aria-live="polite"
                             >
-                                ❗ {passwordError}
-                            </p>
+                                {passwordError}
+                            </div>
                         )}
                     </div>
                     <button
                         type="submit"
-                        style={styles.button}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#45a049')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
+                        style={{
+                            ...styles.button,
+                            ...(buttonHover ? styles.buttonHover : {}),
+                        }}
+                        onMouseOver={() => setButtonHover(true)}
+                        onMouseOut={() => setButtonHover(false)}
                     >
                         Sign In
                     </button>
                 </form>
-                <p
+                <span
+                    onClick={handleForgotPassword}
+                    style={styles.link}
+                    tabIndex={0}
+                    role="button"
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') handleForgotPassword();
+                    }}
+                >
+                    Forgot password?
+                </span>
+                <br />
+                <span
                     onClick={handleCreateAccount}
                     style={styles.link}
                     tabIndex={0}
@@ -182,9 +235,11 @@ const LoginPage = ({ setIsAuthenticated }) => {
                         if (e.key === 'Enter' || e.key === ' ') handleCreateAccount();
                     }}
                 >
-                    Don't have an account?{' '}
-                    <span style={styles.underline}>Create one</span>
-                </p>
+                    Request access
+                </span>
+                <div style={styles.footer}>
+                    &copy; {new Date().getFullYear()} NexA Audit Portal. All rights reserved.
+                </div>
             </div>
         </div>
     );
