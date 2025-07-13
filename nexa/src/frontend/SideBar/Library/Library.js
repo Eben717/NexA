@@ -1,81 +1,143 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const LOGO_PRIMARY = '#1a3a6b';
+const LOGO_SECONDARY = '#4a6fa5';
+const LOGO_BG = '#f4f8fb';
 
 const Library = () => {
+    const [libraryList, setLibraryList] = useState([]);
+    const [sectionTitle, setSectionTitle] = useState('');
+    const navigate = useNavigate();
 
-    const [isClicked, setIsClicked] = React.useState(false);
+    const handleClick = async (label) => {
+        if (label === 'Library List') {
+            navigate('/library-list');
+            return;
+        }
+        if (label === 'Documents') {
+            navigate('/documents');
+            return;
+        }
+        if (label === 'Templates') {
+            navigate('/templates');
+            return;
+        }
+        if (label === 'Guides') {
+            navigate('/guides');
+            return;
+        }
+
+        let endpoint = '';
+        let title = '';
+
+        switch (label) {
+            case 'Documents':
+                endpoint = 'documents';
+                title = 'Documents';
+                break;
+            case 'Templates':
+                endpoint = 'templates';
+                title = 'Templates';
+                break;
+            case 'Guides':
+                endpoint = 'guides';
+                title = 'Guides';
+                break;
+            default:
+                return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:2000/api/library/${endpoint}`);
+            const data = await response.json();
+            const key = Object.keys(data)[0];
+            setLibraryList(data[key] || []);
+            setSectionTitle(title);
+        } catch (error) {
+            console.error('❌ Error fetching data:', error);
+        }
+    };
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f9', minHeight: '100vh', width: '79.2%', alignItems: 'center', marginLeft: 'auto', transform: 'translateY(-94%)' }}>
+        <div style={{
+            padding: '20px',
+            fontFamily: 'Segoe UI, Arial, sans-serif',
+            backgroundColor: LOGO_BG,
+            minHeight: '100vh',
+            alignItems: 'center',
+            marginLeft: 'auto',
+        }}>
             {/* Header */}
-            <h1 style={{ borderBottom: '1px solid #007BFF', paddingBottom: '5px', color: '#333' }}>Library</h1>
-            {/* Folder Icon*/}
-            <div
-                tabIndex={0}
-                style={{
-                    marginTop: '20px',
-                    marginBottom: '10px',
-                    display: 'inline-block',
-                    cursor: 'pointer',
-                    outline: 'none',
-                    transition: 'transform 0.15s cubic-bezier(.17,.67,.83,.67)',
-                    transform: isClicked ? 'scale(1.15)' : 'scale(1)',
-                }}
-                onMouseDown={() => setIsClicked(true)}
-                onMouseUp={() => setIsClicked(false)}
-                onMouseLeave={() => setIsClicked(false)}
-                onKeyDown={e => {
-                    if (e.key === 'Enter' || e.key === ' ') setIsClicked(true);
-                }}
-                onKeyUp={e => {
-                    if (e.key === 'Enter' || e.key === ' ') setIsClicked(false);
-                }}
-                aria-label="Open Library Folder"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    style={{ display: 'block' }}
-                > 
-                    <rect
-                        x="2"
-                        y="7"
-                        width="20"
-                        height="13"
-                        rx="3"
-                        fill={isClicked ? "#F5F6FA" : undefined}
-                        style={{ transition: 'fill 0.2s' }}
-                        className="folder-body"
-                    />
-                    <path
-                        d="M2 7V5a2 2 0 0 1 2-2h5.17a2 2 0 0 1 1.41.59l1.83 1.83A2 2 0 0 0 13.83 6H20a2 2 0 0 1 2 2v2"
-                        fill="#FFFFFF"
-                    />
-                    <rect
-                        x="2"
-                        y="7"
-                        width="20"
-                        height="13"
-                        rx="3"
-                        stroke="#B0BEC5"
-                        strokeWidth="1.5"
-                    />
-                </svg>
-                <div style=
-                {{ textAlign: 'center', marginTop: '8px', color: '#555', 
-                fontSize: '16px', fontWeight: 500 }}> Documents </div>
-                <style>{`
-                    .folder-body {
-                        fill: #E5E7EB;
-                        transition: fill 0.2s;
-                    }
-                    div[tabindex]:hover .folder-body {
-                        fill: #F5F6FA;
-                    }
-                `}</style>
+            <h1 style={{
+                borderBottom: `2px solid ${LOGO_PRIMARY}`,
+                paddingBottom: '10px',
+                color: LOGO_PRIMARY,
+                fontWeight: 600
+            }}>
+                Library
+            </h1>
+
+            {/* Circles */}
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                marginTop: '40px',
+                flexWrap: 'wrap',
+                gap: '20px'
+            }}>
+                {['Documents', 'Templates', 'Guides', 'Library List'].map((label) => (
+                    <div
+                        key={label}
+                        onClick={() => handleClick(label)}
+                        style={{
+                            width: '120px',
+                            height: '120px',
+                            borderRadius: '50%',
+                            background: `linear-gradient(135deg, ${LOGO_PRIMARY} 60%, ${LOGO_SECONDARY} 100%)`,
+                            color: '#fff',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            textAlign: 'center',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            boxShadow: '0 4px 6px rgba(26, 58, 107, 0.10)',
+                            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.1)';
+                            e.currentTarget.style.boxShadow = '0 6px 10px rgba(26, 58, 107, 0.18)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.boxShadow = '0 4px 6px rgba(26, 58, 107, 0.10)';
+                        }}
+                    >
+                        {label}
+                    </div>
+                ))}
             </div>
+
+            {/* Display Result List */}
+            {libraryList.length > 0 && (
+                <div style={{ marginTop: '40px' }}>
+                    <h2>{sectionTitle}</h2>
+                    <ul>
+                        {libraryList.map((item, index) => (
+                            <li key={index}>
+                                {Object.entries(item).map(([key, value]) => (
+                                    <div key={key}>
+                                        <strong>{key}:</strong> {value}
+                                    </div>
+                                ))}
+                                <hr />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };
