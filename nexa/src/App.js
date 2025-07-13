@@ -18,6 +18,7 @@ import CompletedReports from './frontend/SideBar/Reports/completedreports';
 import InprogressReports from './frontend/SideBar/Reports/inprogressreports';
 import DueReports from './frontend/SideBar/Reports/duereport';
 import ReportsList from './frontend/SideBar/Reports/reportslist';
+import './app.css';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
