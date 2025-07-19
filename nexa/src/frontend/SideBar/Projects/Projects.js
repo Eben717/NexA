@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const LOGO_PRIMARY = '#1a3a6b';
-const LOGO_SECONDARY = '#4a6fa5';
-const LOGO_BG = '#f4f8fb';
-
 const Projects = () => {
   const [projectList, setProjectList] = useState([]);
   const [sectionTitle, setSectionTitle] = useState('');
@@ -63,52 +59,19 @@ const navigate = useNavigate();
 
 
  return (
-        <div style={{
-            padding: '20px',
-            fontFamily: 'Segoe UI, Arial, sans-serif',
-            backgroundColor: LOGO_BG,
-            minHeight: '100vh',
-            alignItems: 'center',
-            marginLeft: 'auto',
-        }}>
+        <div className='container'>
             {/* Header */}
-            <h1 style={{
-                borderBottom: `2px solid ${LOGO_PRIMARY}`,
-                paddingBottom: '10px',
-                color: LOGO_PRIMARY,
-                fontWeight: 600
-            }}>
+            <h1 className='header'>
                 Projects
             </h1>
             
             {/* Circles */}
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-around',
-                marginTop: '40px',
-                flexWrap: 'wrap',
-                gap: '20px'
-            }}>
+            <div className='circles'>
         {['Completed', 'In-Progress', 'Unexecuted', 'Project List'].map((label) => (
           <div
             key={label}
             onClick={() => handleClick(label)}
-           style={{
-                            width: '120px',
-                            height: '120px',
-                            borderRadius: '50%',
-                            background: `linear-gradient(135deg, ${LOGO_PRIMARY} 60%, ${LOGO_SECONDARY} 100%)`,
-                            color: '#fff',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            textAlign: 'center',
-                            fontSize: '14px',
-                            fontWeight: 500,
-                            boxShadow: '0 4px 6px rgba(26, 58, 107, 0.10)',
-                            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                        }}
+            className='circles2'
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'scale(1.1)';
               e.currentTarget.style.boxShadow = '0 6px 10px rgba(0, 0, 0, 0.15)';
