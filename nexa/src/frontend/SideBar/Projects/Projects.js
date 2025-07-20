@@ -59,6 +59,7 @@ const navigate = useNavigate();
 
 
  return (
+    <div className='wrapper'>
         <div className='container'>
             {/* Header */}
             <h1 className='header'>
@@ -85,6 +86,7 @@ const navigate = useNavigate();
           </div>
         ))}
       </div>
+        </div>
 
       {/* Display Result List */}
       {projectList.length > 0 && (
