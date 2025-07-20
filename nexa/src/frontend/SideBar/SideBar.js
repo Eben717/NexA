@@ -25,7 +25,7 @@ const SideBar = () => {
   const toggleSidebar = () => setIsOpen(prev => !prev);
 
   return (
-    <aside style={{ ...styles.sidebar, width: isOpen ? '220px' : '60px' }}>
+    <aside className='aside-bar' style={{ ...styles.sidebar, width: isOpen ? '220px' : '60px' }}>
       {/* Header with Menu and Drawer Icon */}
       <div style={styles.header}>
         <span style={{ ...styles.menuText, display: isOpen ? 'inline' : 'none' }}>Menu</span>
