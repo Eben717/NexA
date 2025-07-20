@@ -71,6 +71,8 @@ const styles = {
     flexDirection: 'column',
     transition: 'width 0.3s ease',
     overflow: 'hidden',
+    display: 'inline-block',
+    float: 'left',
   },
   header: {
     fontSize: '1.3rem',
