@@ -23,9 +23,8 @@ const NotCompleted = () => {
   }, []);
 
   return (
-    <div
-className='container'
-    >
+    <div className='wrapper'>
+    <div className='container' >
       {/* ✅ Back Button */}
       <button className='back-button'
         onClick={() => navigate('/projects')}
@@ -49,6 +48,7 @@ className='container'
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

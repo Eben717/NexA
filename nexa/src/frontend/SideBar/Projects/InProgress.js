@@ -22,8 +22,8 @@ const Inprogress = () => {
   }, []);
 
   return (
-    <div className='container'
-    >
+    <div className='wrapper'>
+    <div className='container'>
       {/* ✅ Back Button */}
       <button className='back-button'
         onClick={() => navigate('/projects')}
@@ -47,6 +47,7 @@ const Inprogress = () => {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

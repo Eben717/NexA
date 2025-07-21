@@ -22,6 +22,7 @@ const Completed = () => {
   }, []);
 
   return (
+    <div className='wrapper'>
     <div
     className='container'
     >
@@ -49,6 +50,7 @@ const Completed = () => {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

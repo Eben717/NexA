@@ -22,6 +22,7 @@ const AllProjects = () => {
   }, []);
 
   return (
+    <div className='wrapper'>
     <div
     className='container'
     >
@@ -49,6 +50,7 @@ const AllProjects = () => {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

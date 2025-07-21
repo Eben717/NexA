@@ -57,6 +57,7 @@ const Library = () => {
     };
 
     return (
+        <div className='wrapper'>
         <div className='container'>
             {/* Header */}
             <h1 className='header'>
@@ -81,6 +82,7 @@ const Library = () => {
                     >
                         {label}
                     </div>
+
                 ))}
             </div>
 
@@ -102,6 +104,7 @@ const Library = () => {
                     </ul>
                 </div>
             )}
+        </div>
         </div>
     );
 };

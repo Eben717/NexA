@@ -58,6 +58,7 @@ const Reports = () => {
   };
 
   return (
+    <div className='wrapper'>
     <div className='container'>
       {/* Header */}
       <h1 className='header'>
@@ -103,6 +104,7 @@ const Reports = () => {
           </ul>
         </div>
       )}
+    </div>
     </div>
   );
 };
