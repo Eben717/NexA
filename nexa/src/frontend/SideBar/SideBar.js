@@ -25,7 +25,7 @@ const SideBar = () => {
   const toggleSidebar = () => setIsOpen(prev => !prev);
 
   return (
-    <div className='sidebar-container'>
+   
     <aside className='aside-bar' style={{ ...styles.sidebar, width: isOpen ? '220px' : '60px' }}>
       {/* Header with Menu and Drawer Icon */}
       <div style={styles.header}>
@@ -58,7 +58,6 @@ const SideBar = () => {
         })}
       </ul>
     </aside>
-    </div>
   );
 };
 
@@ -69,8 +68,6 @@ const styles = {
     color: '#fff',
     padding: '24px 0',
     boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
     transition: 'width 0.3s ease',
     overflow: 'hidden',
     display: 'inline-block',

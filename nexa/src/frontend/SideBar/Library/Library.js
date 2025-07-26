@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const Library = () => {
     const [libraryList, setLibraryList] = useState([]);
     const [sectionTitle, setSectionTitle] = useState('');
@@ -57,8 +56,7 @@ const Library = () => {
     };
 
     return (
-        <div className='wrapper'>
-        <div className='container'>
+        <>
             {/* Header */}
             <h1 className='header'>
                 Library
@@ -82,7 +80,6 @@ const Library = () => {
                     >
                         {label}
                     </div>
-
                 ))}
             </div>
 
@@ -104,8 +101,7 @@ const Library = () => {
                     </ul>
                 </div>
             )}
-        </div>
-        </div>
+        </>
     );
 };
 

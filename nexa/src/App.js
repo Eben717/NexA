@@ -47,7 +47,10 @@ function App() {
                                 element={
                                     <>
                                         <NavBar />
+                                     
                                         <SideBar />
+                                            <div className="wrapper">
+                                                <div className="container">
                                         <Routes>
                                             <Route path="/dashboard" element={<Dashboard />} />
                                             <Route path="/projects" element={<Projects />} />
@@ -65,6 +68,8 @@ function App() {
                                             <Route path="/due-reports" element={<DueReports />} />
                                             <Route path="/reports-list" element={<ReportsList />} />
                                         </Routes>
+                                        </div>
+                                    </div>
                                     </>
                                 }
                             />

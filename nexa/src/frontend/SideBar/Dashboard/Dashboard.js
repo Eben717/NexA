@@ -6,9 +6,8 @@ const Dashboard = () => {
     };
 
     return (
-        <div className='wrapper'>
-        <div className='container'>
-                <h1 className='header'>
+        <>
+            <h1 className='header'>
                 Dashboard
             </h1>
             
@@ -32,8 +31,7 @@ const Dashboard = () => {
                     </div>
                 ))}
             </div>
-        </div>
-        </div>
+        </>
     );
 };
 
