@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const NotCompleted = () => {
   const [projects, setProjects] = useState([]);
   const navigate = useNavigate(); 
@@ -23,8 +22,7 @@ const NotCompleted = () => {
   }, []);
 
   return (
-    <div className='wrapper'>
-    <div className='container' >
+    <>
       {/* ✅ Back Button */}
       <button className='back-button'
         onClick={() => navigate('/projects')}
@@ -48,8 +46,7 @@ const NotCompleted = () => {
           </li>
         ))}
       </ul>
-    </div>
-    </div>
+    </>
   );
 };
 

@@ -5,17 +5,15 @@ const InprogressReports = ({ reports }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='wrapper'>
-    <div className='container'>
+    <>
       <button
         onClick={() => navigate(-1)} // 👈 Go back one step in history
         className='back-button'
-        
       >
         ← Back
       </button>
 
-       <h1 className='header'>
+      <h1 className='header'>
         Reports In Progress
       </h1>
 
@@ -31,8 +29,7 @@ const InprogressReports = ({ reports }) => {
           </li>
         ))}
       </ul>
-    </div>
-    </div>
+    </>
   );
 };
 

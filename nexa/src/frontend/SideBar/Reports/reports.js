@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const Reports = () => {
   const [reportsList, setReportsList] = useState([]);
   const [sectionTitle, setSectionTitle] = useState('');
@@ -58,8 +57,7 @@ const Reports = () => {
   };
 
   return (
-    <div className='wrapper'>
-    <div className='container'>
+    <>
       {/* Header */}
       <h1 className='header'>
         Reports
@@ -104,8 +102,7 @@ const Reports = () => {
           </ul>
         </div>
       )}
-    </div>
-    </div>
+    </>
   );
 };
 

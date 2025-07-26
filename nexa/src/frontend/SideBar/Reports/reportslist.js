@@ -5,8 +5,7 @@ const ReportsList = ({ reports }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='wrapper'>
-    <div className='container'>
+    <>
       <button
         onClick={() => navigate(-1)} // 👈 Go back one step in history
         className='back-button'
@@ -14,7 +13,7 @@ const ReportsList = ({ reports }) => {
         ← Back
       </button>
 
-       <h1 className='header'>
+      <h1 className='header'>
         Reports List
       </h1>
 
@@ -30,8 +29,7 @@ const ReportsList = ({ reports }) => {
           </li>
         ))}
       </ul>
-    </div>
-    </div>
+    </>
   );
 };
 

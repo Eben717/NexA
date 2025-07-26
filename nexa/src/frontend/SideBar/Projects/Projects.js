@@ -1,73 +1,70 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const Projects = () => {
   const [projectList, setProjectList] = useState([]);
   const [sectionTitle, setSectionTitle] = useState('');
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleClick = async (label) => {
-  if (label === 'Project List') {
-    navigate('/all-projects');
-    return;
-  }
-  if (label === 'Completed') {
-    navigate('/completed');
-    return;
-  }
-  if (label === 'In-Progress') {
-    navigate('/in-progress');
-    return;
-  }
-  if (label === 'Unexecuted') {
-    navigate('/not-completed');
-    return;
-  }
-
-  let endpoint = '';
-  let title = '';
-
-  switch (label) {
-    case 'Completed':
-      endpoint = 'completed';
-      title = 'Audits Completed';
-      break;
-    case 'In-Progress':
-      endpoint = 'in-progress';
-      title = 'Audits In Progress';
-      break;
-    case 'Unexecuted':
-      endpoint = 'not-completed';
-      title = 'Audits Not Completed';
-      break;
-    default:
+    if (label === 'Project List') {
+      navigate('/all-projects');
       return;
-  }
+    }
+    if (label === 'Completed') {
+      navigate('/completed');
+      return;
+    }
+    if (label === 'In-Progress') {
+      navigate('/in-progress');
+      return;
+    }
+    if (label === 'Unexecuted') {
+      navigate('/not-completed');
+      return;
+    }
 
-  try {
-    const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
-    const data = await response.json();
-    const key = Object.keys(data)[0];
-    setProjectList(data[key] || []);
-    setSectionTitle(title);
-  } catch (error) {
-    console.error('❌ Error fetching data:', error);
-  }
-};
+    let endpoint = '';
+    let title = '';
 
+    switch (label) {
+      case 'Completed':
+        endpoint = 'completed';
+        title = 'Audits Completed';
+        break;
+      case 'In-Progress':
+        endpoint = 'in-progress';
+        title = 'Audits In Progress';
+        break;
+      case 'Unexecuted':
+        endpoint = 'not-completed';
+        title = 'Audits Not Completed';
+        break;
+      default:
+        return;
+    }
 
- return (
-    <div className='wrapper'>
-        <div className='container'>
-            {/* Header */}
-            <h1 className='header'>
-                Projects
-            </h1>
-            
-            {/* Circles */}
-            <div className='circles'>
+    try {
+      const response = await fetch(`http://localhost:2000/api/projects/${endpoint}`);
+      const data = await response.json();
+      const key = Object.keys(data)[0];
+      setProjectList(data[key] || []);
+      setSectionTitle(title);
+    } catch (error) {
+      console.error('❌ Error fetching data:', error);
+    }
+  };
+
+  return (
+    <>
+      {/* Header */}
+      <h1 className='header'>
+        Projects
+      </h1>
+      
+      {/* Circles */}
+      <div className='circles'>
         {['Completed', 'In-Progress', 'Unexecuted', 'Project List'].map((label) => (
           <div
             key={label}
@@ -86,7 +83,6 @@ const navigate = useNavigate();
           </div>
         ))}
       </div>
-        </div>
 
       {/* Display Result List */}
       {projectList.length > 0 && (
@@ -106,7 +102,7 @@ const navigate = useNavigate();
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

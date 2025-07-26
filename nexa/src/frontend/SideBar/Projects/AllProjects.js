@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 👈 Add this
+import { useNavigate } from 'react-router-dom';
 
 const AllProjects = () => {
   const [projects, setProjects] = useState([]);
-  const navigate = useNavigate(); // 👈 Initialize navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -22,14 +22,11 @@ const AllProjects = () => {
   }, []);
 
   return (
-    <div className='wrapper'>
-    <div
-    className='container'
-    >
+    <>
       {/* ✅ Back Button */}
       <button
         onClick={() => navigate('/projects')}
-    className='back-button'
+        className='back-button'
       >
         ← Back
       </button>
@@ -50,8 +47,7 @@ const AllProjects = () => {
           </li>
         ))}
       </ul>
-    </div>
-    </div>
+    </>
   );
 };
 

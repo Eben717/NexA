@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 👈 Import navigate
+import { useNavigate } from 'react-router-dom';
 
 const Inprogress = () => {
   const [projects, setProjects] = useState([]);
-  const navigate = useNavigate(); // 👈 Initialize the hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -22,8 +22,7 @@ const Inprogress = () => {
   }, []);
 
   return (
-    <div className='wrapper'>
-    <div className='container'>
+    <>
       {/* ✅ Back Button */}
       <button className='back-button'
         onClick={() => navigate('/projects')}
@@ -47,8 +46,7 @@ const Inprogress = () => {
           </li>
         ))}
       </ul>
-    </div>
-    </div>
+    </>
   );
 };
 
