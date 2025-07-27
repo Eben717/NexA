@@ -61,6 +61,7 @@
 .settings-container {
     max-width: 500px;
     margin: 40px auto;
+    margin-top: -3px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(26, 58, 107, 0.10);
@@ -70,10 +71,16 @@
 .settings-header {
     color: #1a3a6b;
     border-bottom: 1px solid #1a3a6b;
-    padding-bottom: 10px;
-    margin-bottom: 24px;
-    font-size: 2rem;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
     text-align: center;
+    margin-top: -2px;
+}
+
+.settings-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .settings-section {
@@ -86,12 +93,6 @@
     font-size: 1.1rem;
 }
 
-.settings-field {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-}
-
 .settings-field label {
     margin-bottom: 6px;
     color: #4a6fa5;
@@ -99,7 +100,7 @@
 }
 
 .settings-field input {
-    padding: 8px 10px;
+    padding: 5px 10px;
     border: 1px solid #bfc9da;
     border-radius: 5px;
     font-size: 1rem;
