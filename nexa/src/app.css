@@ -56,3 +56,74 @@
     box-shadow: 0 4px 6px rgba(26, 58, 107, 0.10);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
  }
+
+/* Settings Page Styles */
+.settings-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(26, 58, 107, 0.10);
+    padding: 32px 24px;
+}
+
+.settings-header {
+    color: #1a3a6b;
+    border-bottom: 1px solid #1a3a6b;
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.settings-section {
+    margin-bottom: 28px;
+}
+
+.settings-section h3 {
+    color: #1a3a6b;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.settings-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.settings-field label {
+    margin-bottom: 6px;
+    color: #4a6fa5;
+    font-weight: 500;
+}
+
+.settings-field input {
+    padding: 8px 10px;
+    border: 1px solid #bfc9da;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.settings-field input:focus {
+    border: 1.5px solid #1a3a6b;
+}
+
+.settings-save-btn {
+    width: 100%;
+    padding: 12px 0;
+    background: linear-gradient(135deg, #1a3a6b 60%, #4a6fa5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.settings-save-btn:hover {
+    background: linear-gradient(135deg, #4a6fa5 60%, #1a3a6b 100%);
+}
