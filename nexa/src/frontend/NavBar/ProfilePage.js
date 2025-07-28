@@ -1,6 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
+    const navigate = useNavigate();
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [profileData, setProfileData] = useState({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        location: 'New York, USA',
+        role: 'System Administrator',
+    });
+
+    const handleChange = (e) => {
+        setProfileData({ ...profileData, [e.target.name]: e.target.value });
+    };
+
+    const handleEditToggle = () => setIsEditing(true);
+    const handleCancel = () => setIsEditing(false);
+
+    const handleSave = () => {
+        // In a real app, you'd send this to the backend
+        alert('Profile updated successfully!');
+        setIsEditing(false);
+    };
+
+    const handleLogout = () => {
+        // Clear token or session
+        localStorage.removeItem('authToken'); // Example
+        navigate('/login'); // Redirect to login
+    };
+
     return (
         <div className="profile-container">
             <header className="profile-header">
@@ -15,15 +45,57 @@ const ProfilePage = () => {
                     />
                 </div>
                 <div className="profile-details">
-                    <h2 className="profile-name">John Doe</h2>
-                    <p><strong>Email:</strong> johndoe@example.com</p>
-                    <p><strong>Location:</strong> New York, USA</p>
-                    <p><strong>Role:</strong> System Administrator</p>
+                    {isEditing ? (
+                        <>
+                            <input
+                                type="text"
+                                name="name"
+                                value={profileData.name}
+                                onChange={handleChange}
+                                className="profile-input"
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                value={profileData.email}
+                                onChange={handleChange}
+                                className="profile-input"
+                            />
+                            <input
+                                type="text"
+                                name="location"
+                                value={profileData.location}
+                                onChange={handleChange}
+                                className="profile-input"
+                            />
+                            <input
+                                type="text"
+                                name="role"
+                                value={profileData.role}
+                                onChange={handleChange}
+                                className="profile-input"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <h2 className="profile-name">{profileData.name}</h2>
+                            <p><strong>Email:</strong> {profileData.email}</p>
+                            <p><strong>Location:</strong> {profileData.location}</p>
+                            <p><strong>Role:</strong> {profileData.role}</p>
+                        </>
+                    )}
                 </div>
             </section>
             <section className="profile-actions">
-                <button className="profile-btn">Edit Profile</button>
-                <button className="profile-btn logout">Logout</button>
+                {isEditing ? (
+                    <>
+                        <button className="profile-btn" onClick={handleSave}>Save</button>
+                        <button className="profile-btn" onClick={handleCancel}>Cancel</button>
+                    </>
+                ) : (
+                    <button className="profile-btn" onClick={handleEditToggle}>Edit Profile</button>
+                )}
+                <button className="profile-btn logout" onClick={handleLogout}>Logout</button>
             </section>
         </div>
     );
