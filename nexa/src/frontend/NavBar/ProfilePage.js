@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
     const navigate = useNavigate();
+    const fileInputRef = useRef(null);
 
     const [isEditing, setIsEditing] = useState(false);
     const [profileData, setProfileData] = useState({
@@ -12,6 +13,8 @@ const ProfilePage = () => {
         role: 'System Administrator',
     });
 
+    const [profileImage, setProfileImage] = useState('https://via.placeholder.com/150');
+
     const handleChange = (e) => {
         setProfileData({ ...profileData, [e.target.name]: e.target.value });
     };
@@ -20,15 +23,30 @@ const ProfilePage = () => {
     const handleCancel = () => setIsEditing(false);
 
     const handleSave = () => {
-        // In a real app, you'd send this to the backend
         alert('Profile updated successfully!');
         setIsEditing(false);
     };
 
     const handleLogout = () => {
-        // Clear token or session
-        localStorage.removeItem('authToken'); // Example
-        navigate('/login'); // Redirect to login
+        localStorage.removeItem('authToken');
+        navigate('/login');
+    };
+
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImage(reader.result); // Set image as base64
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select a valid image file.');
+        }
     };
 
     return (
@@ -36,14 +54,24 @@ const ProfilePage = () => {
             <header className="profile-header">
                 <h1>My Profile</h1>
             </header>
+
             <section className="profile-content">
-                <div className="profile-image-wrapper">
+                <div className="profile-image-wrapper" onClick={handleImageClick}>
                     <img
-                        src="https://via.placeholder.com/150"
+                        src={profileImage}
                         alt="Profile"
                         className="profile-image"
+                        style={{ cursor: 'pointer' }}
+                    />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        onChange={handleImageChange}
                     />
                 </div>
+
                 <div className="profile-details">
                     {isEditing ? (
                         <>
@@ -86,6 +114,7 @@ const ProfilePage = () => {
                     )}
                 </div>
             </section>
+
             <section className="profile-actions">
                 {isEditing ? (
                     <>
