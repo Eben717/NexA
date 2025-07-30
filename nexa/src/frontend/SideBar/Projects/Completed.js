@@ -46,7 +46,7 @@ const Completed = () => {
   };
 
   return (
-    <div className="completed-container" style={{ padding: '1rem' }}>
+    <>
       {/* Back Button */}
       <button
         onClick={() => navigate('/projects')}
@@ -60,7 +60,7 @@ const Completed = () => {
       
       {/* ✅ Form */}
       <form onSubmit={handleSubmit} style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h2></h2>
+
 
         <input type="text" name="projectId" placeholder="Project ID" value={newProject.projectId} onChange={handleChange} required /><br />
         <input type="text" name="projectName" placeholder="Project Name" value={newProject.projectName} onChange={handleChange} required /><br />
@@ -88,7 +88,7 @@ const Completed = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 
