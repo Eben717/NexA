@@ -56,7 +56,7 @@ function App() {
                                             <Route path="/projects" element={<Projects />} />
                                             <Route path="/reports" element={<Reports />} />
                                             <Route path="/library" element={<Library />} />
-                                            <Route path="/profile" element={<ProfilePage />} />
+                                            <Route path="/profile" element={<ProfilePage setIsAuthenticated={setIsAuthenticated} />} />
                                             <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
                                             <Route path="/settings" element={<Settings />} />
                                             <Route path="/all-projects" element={<AllProjects />} />

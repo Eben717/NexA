@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaPlus, FaTrash } from 'react-icons/fa';
 
-const ProfilePage = () => {
+const ProfilePage = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -28,8 +28,10 @@ const ProfilePage = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
+    sessionStorage.clear();
+    localStorage.removeItem('token'); // or 'authToken' if that’s what you store
+    setIsAuthenticated(false);
+    navigate('/');
   };
 
   const handleImageClick = () => {
@@ -73,7 +75,7 @@ const ProfilePage = () => {
             />
           )}
 
-          {/* Plus icon - unchanged position */}
+          {/* Plus icon - add/change image */}
           <div
             className="image-action-button"
             title="Add/Change Image"
@@ -92,7 +94,7 @@ const ProfilePage = () => {
             <FaPlus />
           </div>
 
-          {/* Trash icon if image is set */}
+          {/* Trash icon - delete image */}
           {profileImage && (
             <div
               className="image-action-button"
