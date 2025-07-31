@@ -11,7 +11,7 @@ const AllProjects = () => {
     auditor: '',
     startDate: '',
     expectedEndDate: '',
-    status: 'pending', // You can change this to a default status you use
+    status: 'pending',
     notes: '',
   });
 
@@ -72,18 +72,15 @@ const AllProjects = () => {
   return (
     <>
       {/* ✅ Back Button */}
-      <button
-        onClick={() => navigate('/projects')}
-        className='back-button'
-      >
+      <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
       </button>
 
-      <h1 className='header'>Project List</h1>
+      <h1 className="header">Project List</h1>
 
       {/* ➕ Form Section */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+      <form onSubmit={handleSubmit} className="project-form">
+        <div className="form-grid">
           <input
             type="text"
             name="projectId"
@@ -127,20 +124,18 @@ const AllProjects = () => {
             name="startDate"
             value={formData.startDate}
             onChange={handleChange}
-            placeholder="Start Date"
           />
           <input
             type="date"
             name="expectedEndDate"
             value={formData.expectedEndDate}
             onChange={handleChange}
-            placeholder="Expected End Date"
           />
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
-            style={{ minWidth: '150px' }}
+            className="select-field"
           >
             <option value="pending">Pending</option>
             <option value="in-progress">In Progress</option>
@@ -153,16 +148,16 @@ const AllProjects = () => {
             onChange={handleChange}
             placeholder="Notes"
             rows={2}
-            style={{ width: '100%' }}
+            className="textarea-full"
           />
         </div>
-        <button type="submit" style={{ marginTop: '1rem' }}>➕ Add Project</button>
+        <button type="submit" className="submit-button">➕ Add Project</button>
       </form>
 
       {/* 🔽 List of Projects */}
-      <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+      <ul className="project-list">
         {projects.map((project, index) => (
-          <li key={index} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>
+          <li key={index} className="project-item">
             {Object.entries(project).map(([key, value]) => (
               <div key={key}>
                 <strong>{key}:</strong> {value?.toString()}

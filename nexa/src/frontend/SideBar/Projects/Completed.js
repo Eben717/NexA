@@ -42,44 +42,97 @@ const Completed = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Submitted Project:', newProject);
-    // You could POST this to the API if needed.
+    // Optionally post to API
   };
 
   return (
     <>
       {/* Back Button */}
-      <button
-        onClick={() => navigate('/projects')}
-        className='back-button'
-        style={{ marginBottom: '1rem' }}
-      >
+      <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
       </button>
 
-    <h1 className='header'>Completed Projects</h1>
-      
+      <h1 className="header">Completed Projects</h1>
+
       {/* ✅ Form */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-
-
-        <input type="text" name="projectId" placeholder="Project ID" value={newProject.projectId} onChange={handleChange} required /><br />
-        <input type="text" name="projectName" placeholder="Project Name" value={newProject.projectName} onChange={handleChange} required /><br />
-        <input type="text" name="auditType" placeholder="Audit Type" value={newProject.auditType} onChange={handleChange} /><br />
-        <input type="text" name="client" placeholder="Client" value={newProject.client} onChange={handleChange} /><br />
-        <input type="text" name="auditor" placeholder="Auditor(s)" value={newProject.auditor} onChange={handleChange} /><br />
-        <input type="date" name="startDate" value={newProject.startDate} onChange={handleChange} /><br />
-        <input type="date" name="endDate" value={newProject.endDate} onChange={handleChange} /><br />
-        <textarea name="findings" placeholder="Key Findings" value={newProject.findings} onChange={handleChange} rows="3" /><br />
-        <textarea name="recommendations" placeholder="Recommendations" value={newProject.recommendations} onChange={handleChange} rows="3" /><br />
-        <input type="url" name="reportLink" placeholder="Final Report Link (optional)" value={newProject.reportLink} onChange={handleChange} /><br />
-
-        <button type="submit">Save Project</button>
+      <form onSubmit={handleSubmit} className="project-form">
+        <input
+          type="text"
+          name="projectId"
+          placeholder="Project ID"
+          value={newProject.projectId}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="projectName"
+          placeholder="Project Name"
+          value={newProject.projectName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="auditType"
+          placeholder="Audit Type"
+          value={newProject.auditType}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="client"
+          placeholder="Client"
+          value={newProject.client}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="auditor"
+          placeholder="Auditor(s)"
+          value={newProject.auditor}
+          onChange={handleChange}
+        />
+        <input
+          type="date"
+          name="startDate"
+          value={newProject.startDate}
+          onChange={handleChange}
+        />
+        <input
+          type="date"
+          name="endDate"
+          value={newProject.endDate}
+          onChange={handleChange}
+        />
+        <textarea
+          name="findings"
+          placeholder="Key Findings"
+          value={newProject.findings}
+          onChange={handleChange}
+          rows="3"
+        />
+        <textarea
+          name="recommendations"
+          placeholder="Recommendations"
+          value={newProject.recommendations}
+          onChange={handleChange}
+          rows="3"
+        />
+        <input
+          type="url"
+          name="reportLink"
+          placeholder="Final Report Link (optional)"
+          value={newProject.reportLink}
+          onChange={handleChange}
+        />
+        <button type="submit" className="submit-button">Save Project</button>
       </form>
 
       {/* ✅ Display Completed Projects */}
-      <ul>
+      <ul className="project-list">
         {projects.map((project, index) => (
-          <li key={index} style={{ marginBottom: '1rem', padding: '1rem', background: '#f4f4f4', borderRadius: '6px' }}>
+          <li key={index} className="project-item">
             {Object.entries(project).map(([key, value]) => (
               <div key={key}>
                 <strong>{key}:</strong> {value}

@@ -70,17 +70,16 @@ const NotCompleted = () => {
   };
 
   return (
-    <>
+    <div className="project-page">
       {/* ✅ Back Button */}
-      <button className='back-button' onClick={() => navigate('/projects')}>
+      <button className="back-button" onClick={() => navigate('/projects')}>
         ← Back
       </button>
 
-      <h1 className='header'>Unexecuted Audits</h1>
-
-      {/* ➕ Form Section */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+      {/* 📝 Form Section */}
+      <h2 className="header">Unexecuted Audit</h2>
+      <form onSubmit={handleSubmit} className="project-form">
+        <div className="form-group">
           <input
             type="text"
             name="projectId"
@@ -117,7 +116,7 @@ const NotCompleted = () => {
             name="auditor"
             value={formData.auditor}
             onChange={handleChange}
-            placeholder="Auditor Name"
+            placeholder="Auditor"
           />
           <input
             type="date"
@@ -142,13 +141,13 @@ const NotCompleted = () => {
             style={{ width: '100%' }}
           />
         </div>
-        <button type="submit" style={{ marginTop: '1rem' }}>➕ Add Project</button>
+        <button type="submit" className="submit-button">➕ Add Project</button>
       </form>
 
-      {/* 🔽 List of Projects */}
-      <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+      {/* 📋 Project List */}
+      <ul className="project-list">
         {projects.map((project, index) => (
-          <li key={index} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>
+          <li key={index} className="project-card">
             {Object.entries(project).map(([key, value]) => (
               <div key={key}>
                 <strong>{key}:</strong> {value?.toString()}
@@ -157,9 +156,8 @@ const NotCompleted = () => {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 
 export default NotCompleted;
-    
