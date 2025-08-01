@@ -79,7 +79,7 @@ const NotCompleted = () => {
       {/* 📝 Form Section */}
       <h2 className="header">Unexecuted Audit</h2>
       <form onSubmit={handleSubmit} className="project-form">
-        <div className="form-group">
+        <div className="form-inputs">
           <input
             type="text"
             name="projectId"

@@ -243,3 +243,7 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.form-inputs {
+    width: 100px;
+}
