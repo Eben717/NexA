@@ -138,10 +138,9 @@ const NotCompleted = () => {
             onChange={handleChange}
             placeholder="Notes"
             rows={2}
-            style={{ width: '100%' }}
           />
+          <button type="submit" className="submit-button">➕ Add Project</button>
         </div>
-        <button type="submit" className="submit-button">➕ Add Project</button>
       </form>
 
       {/* 📋 Project List */}
