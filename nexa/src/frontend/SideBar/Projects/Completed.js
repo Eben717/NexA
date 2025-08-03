@@ -56,6 +56,7 @@ const Completed = () => {
 
       {/* ✅ Form */}
       <form onSubmit={handleSubmit} className="project-form">
+        <div className="form-inputs">
         <input
           type="text"
           name="projectId"
@@ -84,13 +85,6 @@ const Completed = () => {
           name="client"
           placeholder="Client"
           value={newProject.client}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="auditor"
-          placeholder="Auditor(s)"
-          value={newProject.auditor}
           onChange={handleChange}
         />
         <input
@@ -127,6 +121,7 @@ const Completed = () => {
           onChange={handleChange}
         />
         <button type="submit" className="submit-button">Save Project</button>
+       </div>
       </form>
 
       {/* ✅ Display Completed Projects */}

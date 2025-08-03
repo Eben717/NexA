@@ -112,13 +112,6 @@ const NotCompleted = () => {
             placeholder="Audit Type"
           />
           <input
-            type="text"
-            name="auditor"
-            value={formData.auditor}
-            onChange={handleChange}
-            placeholder="Auditor"
-          />
-          <input
             type="date"
             name="startDate"
             value={formData.startDate}

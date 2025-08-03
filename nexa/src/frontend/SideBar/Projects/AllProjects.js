@@ -80,7 +80,7 @@ const AllProjects = () => {
 
       {/* ➕ Form Section */}
       <form onSubmit={handleSubmit} className="project-form">
-        <div className="form-grid">
+        <div className="form-inputs">
           <input
             type="text"
             name="projectId"
@@ -113,13 +113,6 @@ const AllProjects = () => {
             placeholder="Audit Type"
           />
           <input
-            type="text"
-            name="auditor"
-            value={formData.auditor}
-            onChange={handleChange}
-            placeholder="Auditor Name"
-          />
-          <input
             type="date"
             name="startDate"
             value={formData.startDate}
@@ -150,8 +143,8 @@ const AllProjects = () => {
             rows={2}
             className="textarea-full"
           />
-        </div>
         <button type="submit" className="submit-button">➕ Add Project</button>
+      </div>
       </form>
 
       {/* 🔽 List of Projects */}

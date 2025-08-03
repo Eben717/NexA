@@ -77,8 +77,8 @@ const Inprogress = () => {
 
       <h2 className='header'>Audits In-Projects</h2>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+      <form onSubmit={handleSubmit} className="project-form">
+        <div className='form-inputs'>
           <input
             type="text"
             name="projectId"
@@ -111,13 +111,6 @@ const Inprogress = () => {
             placeholder="Audit Type"
           />
           <input
-            type="text"
-            name="auditor"
-            value={formData.auditor}
-            onChange={handleChange}
-            placeholder="Auditor Name"
-          />
-          <input
             type="date"
             name="startDate"
             value={formData.startDate}
@@ -137,10 +130,9 @@ const Inprogress = () => {
             onChange={handleChange}
             placeholder="Notes"
             rows={2}
-            style={{ width: '100%' }}
           />
-        </div>
         <button type="submit" style={{ marginTop: '1rem' }}>➕ Add Project</button>
+      </div>
       </form>
 
       <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
