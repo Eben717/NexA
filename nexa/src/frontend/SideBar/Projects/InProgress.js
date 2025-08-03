@@ -3,18 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Inprogress = () => {
   const [projects, setProjects] = useState([]);
-  const [formData, setFormData] = useState({
-    projectId: '',
-    projectName: '',
-    clientName: '',
-    auditType: '',
-    auditor: '',
-    startDate: '',
-    expectedEndDate: '',
-    status: 'in-progress',
-    notes: '',
-  });
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,107 +21,13 @@ const Inprogress = () => {
     fetchProjects();
   }, []);
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('http://localhost:2000/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const newProject = await res.json();
-      if (newProject) {
-        setProjects((prev) => [...prev, newProject]);
-        setFormData({
-          projectId: '',
-          projectName: '',
-          clientName: '',
-          auditType: '',
-          auditor: '',
-          startDate: '',
-          expectedEndDate: '',
-          status: 'in-progress',
-          notes: '',
-        });
-      }
-    } catch (err) {
-      console.error('Error submitting form:', err);
-    }
-  };
-
   return (
     <>
       <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
       </button>
 
-      <h2 className='header'>Audits In-Projects</h2>
-
-      <form onSubmit={handleSubmit} className="project-form">
-        <div className='form-inputs'>
-          <input
-            type="text"
-            name="projectId"
-            value={formData.projectId}
-            onChange={handleChange}
-            placeholder="Project ID"
-            required
-          />
-          <input
-            type="text"
-            name="projectName"
-            value={formData.projectName}
-            onChange={handleChange}
-            placeholder="Project Name"
-            required
-          />
-          <input
-            type="text"
-            name="clientName"
-            value={formData.clientName}
-            onChange={handleChange}
-            placeholder="Client Name"
-            required
-          />
-          <input
-            type="text"
-            name="auditType"
-            value={formData.auditType}
-            onChange={handleChange}
-            placeholder="Audit Type"
-          />
-          <input
-            type="date"
-            name="startDate"
-            value={formData.startDate}
-            onChange={handleChange}
-            placeholder="Start Date"
-          />
-          <input
-            type="date"
-            name="expectedEndDate"
-            value={formData.expectedEndDate}
-            onChange={handleChange}
-            placeholder="Expected End Date"
-          />
-          <textarea
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            placeholder="Notes"
-            rows={2}
-          />
-        <button type="submit" style={{ marginTop: '1rem' }}>➕ Add Project</button>
-      </div>
-      </form>
+      <h2 className='header'>Audits In-Progress</h2>
 
       <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
         {projects.map((project, index) => (
