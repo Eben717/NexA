@@ -12,7 +12,7 @@ const Completed = () => {
         const data = await res.json();
 
         if (data.auditsCompleted) {
-          setProjects(data.auditsCompleted); // ✅ Correct key from API response
+          setProjects(data.auditsCompleted);
         }
       } catch (err) {
         console.error('❌ Failed to fetch projects:', err);
@@ -23,7 +23,7 @@ const Completed = () => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       {/* Back Button */}
       <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
@@ -31,27 +31,31 @@ const Completed = () => {
 
       <h1 className="header">Completed Projects</h1>
 
-      {/* ✅ Display Completed Projects */}
-      <ul className="project-list">
-        {projects.map((item, index) => {
-          const project = item.AuditsCompleted; // ✅ Extract nested project object
+      {/* ✅ Scrollable Project List */}
+      <div className="project-list-wrapper">
+        <ul className="project-list">
+          {projects.map((item, index) => {
+            const project = item.AuditsCompleted;
 
-          return (
-            <li key={index} className="project-item">
-              {typeof project === 'object' ? (
-                Object.entries(project).map(([key, value]) => (
-                  <div key={key}>
-                    <strong>{key}:</strong> {value}
-                  </div>
-                ))
-              ) : (
-                <div>{project}</div> // In case AuditsCompleted is a string
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </>
+            return (
+              <li key={index}>
+                <div className="project-card">
+                  {typeof project === 'object' ? (
+                    Object.entries(project).map(([key, value]) => (
+                      <div key={key}>
+                        <strong>{key}:</strong> {value?.toString()}
+                      </div>
+                    ))
+                  ) : (
+                    <div>{project}</div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 };
 
