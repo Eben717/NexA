@@ -1,14 +1,16 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import projectRoutes from './routes/projectRoutes.js'; // ✅ import the route
+import cors from 'cors'; // ✅ NEW LINE
+import projectRoutes from './routes/projectRoutes.js';
 
 dotenv.config();
 
 const app = express();
-app.use(express.json());
 
-app.use('/api/projects', projectRoutes); // ✅ use the route
+app.use(cors()); // ✅ ENABLE CORS
+app.use(express.json());
+app.use('/api/projects', projectRoutes);
 
 const PORT = 2000;
 

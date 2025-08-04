@@ -10,8 +10,9 @@ const Completed = () => {
       try {
         const res = await fetch('http://localhost:2000/api/projects/completed');
         const data = await res.json();
-        if (data.projects) {
-          setProjects(data.projects);
+
+        if (data.auditsCompleted) {
+          setProjects(data.auditsCompleted); // ✅ Correct key from API response
         }
       } catch (err) {
         console.error('❌ Failed to fetch projects:', err);
@@ -32,15 +33,23 @@ const Completed = () => {
 
       {/* ✅ Display Completed Projects */}
       <ul className="project-list">
-        {projects.map((project, index) => (
-          <li key={index} className="project-item">
-            {Object.entries(project).map(([key, value]) => (
-              <div key={key}>
-                <strong>{key}:</strong> {value}
-              </div>
-            ))}
-          </li>
-        ))}
+        {projects.map((item, index) => {
+          const project = item.AuditsCompleted; // ✅ Extract nested project object
+
+          return (
+            <li key={index} className="project-item">
+              {typeof project === 'object' ? (
+                Object.entries(project).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key}:</strong> {value}
+                  </div>
+                ))
+              ) : (
+                <div>{project}</div> // In case AuditsCompleted is a string
+              )}
+            </li>
+          );
+        })}
       </ul>
     </>
   );
