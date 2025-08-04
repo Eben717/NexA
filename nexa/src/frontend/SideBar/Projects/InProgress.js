@@ -24,31 +24,37 @@ const Inprogress = () => {
 
   return (
     <>
+      {/* Back Button */}
       <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
       </button>
 
-      <h2 className="header">Audits In-Progress</h2>
+      <h1 className="header">Audits In-Progress</h1>
 
-      <ul>
-        {projects.map((item, index) => {
-          const project = item.AuditsInProgress;
+      {/* Scrollable Project List */}
+      <div className="project-list-wrapper">
+        <ul className="project-list">
+          {projects.map((item, index) => {
+            const project = item.AuditsInProgress;
 
-          return (
-            <li key={index}>
-              {typeof project === 'object' ? (
-                Object.entries(project).map(([key, value]) => (
-                  <div key={key}>
-                    <strong>{key}:</strong> {value?.toString()}
-                  </div>
-                ))
-              ) : (
-                <div>{project}</div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={index}>
+                <div className="project-card">
+                  {typeof project === 'object' ? (
+                    Object.entries(project).map(([key, value]) => (
+                      <div key={key}>
+                        <strong>{key}:</strong> {value?.toString()}
+                      </div>
+                    ))
+                  ) : (
+                    <div>{project}</div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 };

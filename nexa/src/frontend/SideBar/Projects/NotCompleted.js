@@ -15,7 +15,7 @@ const NotCompleted = () => {
           setProjects(data.auditsNotCompleted);
         }
       } catch (err) {
-        console.error('❌ Failed to fetch projects:', err);
+        console.error('Failed to fetch projects:', err);
       }
     };
 
@@ -24,31 +24,37 @@ const NotCompleted = () => {
 
   return (
     <>
+      {/* Back Button */}
       <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
       </button>
 
-      <h2 className="header">Audits Not Completed</h2>
+      <h1 className="header">Audits Not Completed</h1>
 
-      <ul className="project-list">
-        {projects.map((item, index) => {
-          const project = item.AuditsNotCompleted;
+      {/* Scrollable Project List */}
+      <div className="project-list-wrapper">
+        <ul className="project-list">
+          {projects.map((item, index) => {
+            const project = item.AuditsNotCompleted;
 
-          return (
-            <li key={index} className="project-item">
-              {typeof project === 'object' ? (
-                Object.entries(project).map(([key, value]) => (
-                  <div key={key}>
-                    <strong>{key}:</strong> {value?.toString()}
-                  </div>
-                ))
-              ) : (
-                <div>{project}</div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={index}>
+                <div className="project-card">
+                  {typeof project === 'object' ? (
+                    Object.entries(project).map(([key, value]) => (
+                      <div key={key}>
+                        <strong>{key}:</strong> {value?.toString()}
+                      </div>
+                    ))
+                  ) : (
+                    <div>{project}</div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 };
