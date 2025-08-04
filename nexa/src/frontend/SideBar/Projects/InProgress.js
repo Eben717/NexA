@@ -10,8 +10,9 @@ const Inprogress = () => {
       try {
         const res = await fetch('http://localhost:2000/api/projects/in-progress');
         const data = await res.json();
-        if (data.projects) {
-          setProjects(data.projects);
+
+        if (data.auditsInProgress) {
+          setProjects(data.auditsInProgress);
         }
       } catch (err) {
         console.error('Failed to fetch projects:', err);
@@ -27,18 +28,26 @@ const Inprogress = () => {
         ← Back
       </button>
 
-      <h2 className='header'>Audits In-Progress</h2>
+      <h2 className="header">Audits In-Progress</h2>
 
-      <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-        {projects.map((project, index) => (
-          <li key={index} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>
-            {Object.entries(project).map(([key, value]) => (
-              <div key={key}>
-                <strong>{key}:</strong> {value?.toString()}
-              </div>
-            ))}
-          </li>
-        ))}
+      <ul>
+        {projects.map((item, index) => {
+          const project = item.AuditsInProgress;
+
+          return (
+            <li key={index}>
+              {typeof project === 'object' ? (
+                Object.entries(project).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key}:</strong> {value?.toString()}
+                  </div>
+                ))
+              ) : (
+                <div>{project}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </>
   );
