@@ -255,7 +255,6 @@
   max-height: calc(100vh - 200px); /* Adjust depending on header/form */
   overflow-y: auto;
   padding-right: 8px;
-  margin-top: 20px;
 }
 
 .project-list {

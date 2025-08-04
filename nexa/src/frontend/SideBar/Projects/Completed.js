@@ -23,7 +23,7 @@ const Completed = () => {
   }, []);
 
   return (
-    <div className="container">
+    <>
       {/* Back Button */}
       <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
@@ -31,7 +31,7 @@ const Completed = () => {
 
       <h1 className="header">Completed Projects</h1>
 
-      {/* ✅ Scrollable Project List */}
+      {/* Scrollable Project List */}
       <div className="project-list-wrapper">
         <ul className="project-list">
           {projects.map((item, index) => {
@@ -55,7 +55,7 @@ const Completed = () => {
           })}
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 
