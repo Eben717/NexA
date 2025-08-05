@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AllProjects = () => {
@@ -21,27 +21,46 @@ const AllProjects = () => {
     fetchProjects();
   }, []);
 
+  const handleProjectClick = (projectName) => {
+    const encodedName = encodeURIComponent(projectName);
+    navigate(`/projects/${encodedName}`);
+  };
+
   return (
     <>
-      {/* ✅ Back Button */}
+      {/* Back Button */}
       <button onClick={() => navigate('/projects')} className="back-button">
         ← Back
       </button>
 
       <h1 className="header">Project List</h1>
 
-      {/* 🔽 List of Projects */}
-      <ul className="project-list">
-        {projects.map((project, index) => (
-          <li key={index} className="project-item">
-            {Object.entries(project).map(([key, value]) => (
-              <div key={key}>
-                <strong>{key}:</strong> {value?.toString()}
-              </div>
-            ))}
-          </li>
-        ))}
-      </ul>
+      {/* Scrollable Project List */}
+      <div className="project-list-wrapper">
+        <ul className="project-list">
+          {projects.map((item, index) => {
+            // Try common fields for name, fallback to generic
+            const projectName =
+              item.name ||
+              item.projectName ||
+              item.AuditsCompleted ||
+              item.AuditName ||
+              `Project-${index + 1}`;
+
+            return (
+              <li key={index}>
+                <div
+                  className="project-card"
+                  onClick={() => handleProjectClick(projectName)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {projectName}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 };
