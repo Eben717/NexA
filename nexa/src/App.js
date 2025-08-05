@@ -14,6 +14,7 @@ import AllProjects from './frontend/SideBar/Projects/AllProjects';
 import Completed from './frontend/SideBar/Projects/Completed';
 import Inprogress from './frontend/SideBar/Projects/InProgress';
 import NotCompleted from './frontend/SideBar/Projects/NotCompleted';
+import ProjectDetail from './frontend/SideBar/Projects/ProjectDetails';
 import CompletedReports from './frontend/SideBar/Reports/completedreports';
 import InprogressReports from './frontend/SideBar/Reports/inprogressreports';
 import DueReports from './frontend/SideBar/Reports/duereport';
@@ -21,69 +22,70 @@ import ReportsList from './frontend/SideBar/Reports/reportslist';
 import './app.css';
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    return (
-        <Router>
-            <div className="App">
-                <Routes>
-                    {/* Public Route: Login Page */}
-                    <Route
-                        path="/"
-                        element={
-                            isAuthenticated ? (
-                                <Navigate to="/dashboard" />
-                            ) : (
-                                <LoginPage setIsAuthenticated={setIsAuthenticated} />
-                            )
-                        }
-                    />
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          {/* Public Route: Login */}
+          <Route
+            path="/"
+            element={
+              isAuthenticated ? (
+                <Navigate to="/dashboard" />
+              ) : (
+                <LoginPage setIsAuthenticated={setIsAuthenticated} />
+              )
+            }
+          />
 
-                    {/* Protected Routes: Show layout + pages */}
-                    {isAuthenticated && (
-                        <>
-                            <Route
-                                path="*"
-                                element={
-                                    <>
-                                        <NavBar />
-                                     
-                                        <SideBar />
-                                            <div className="wrapper">
-                                                <div className="container">
-                                        <Routes>
-                                            <Route path="/dashboard" element={<Dashboard />} />
-                                            <Route path="/projects" element={<Projects />} />
-                                            <Route path="/reports" element={<Reports />} />
-                                            <Route path="/library" element={<Library />} />
-                                            <Route path="/profile" element={<ProfilePage setIsAuthenticated={setIsAuthenticated} />} />
-                                            <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
-                                            <Route path="/settings" element={<Settings />} />
-                                            <Route path="/all-projects" element={<AllProjects />} />
-                                            <Route path="/completed" element={<Completed />} />
-                                            <Route path="/in-progress" element={<Inprogress />} />
-                                            <Route path="/not-completed" element={<NotCompleted />} />
-                                            <Route path="/completed-reports" element={<CompletedReports />} />
-                                            <Route path="/in-progress-reports" element={<InprogressReports />} />
-                                            <Route path="/due-reports" element={<DueReports />} />
-                                            <Route path="/reports-list" element={<ReportsList />} />
-                                        </Routes>
-                                        </div>
-                                    </div>
-                                    </>
-                                }
-                            />
-                        </>
-                    )}
+          {/* Protected Routes */}
+          {isAuthenticated && (
+            <>
+              {/* Layout wrapper for all protected routes */}
+              <Route
+                path="*"
+                element={
+                  <>
+                    <NavBar />
+                    <SideBar />
+                    <div className="wrapper">
+                      <div className="container">
+                        <Routes>
+                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route path="/projects" element={<Projects />} />
+                          <Route path="/reports" element={<Reports />} />
+                          <Route path="/library" element={<Library />} />
+                          <Route path="/profile" element={<ProfilePage setIsAuthenticated={setIsAuthenticated} />} />
+                          <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
+                          <Route path="/settings" element={<Settings />} />
+                          <Route path="/all-projects" element={<AllProjects />} />
+                          <Route path="/completed" element={<Completed />} />
+                          <Route path="/in-progress" element={<Inprogress />} />
+                          <Route path="/not-completed" element={<NotCompleted />} />
+                          <Route path="/projects/completed/:projectName" element={<ProjectDetail />} />
+                          <Route path="/projects/not-completed/:projectName" element={<ProjectDetail />} />
+                          <Route path="/projects/in-progress/:projectName" element={<ProjectDetail />} />
+                          <Route path="/completed-reports" element={<CompletedReports />} />
+                          <Route path="/in-progress-reports" element={<InprogressReports />} />
+                          <Route path="/due-reports" element={<DueReports />} />
+                          <Route path="/reports-list" element={<ReportsList />} />
+                        </Routes>
+                      </div>
+                    </div>
+                  </>
+                }
+              />
+            </>
+          )}
 
-                    {/* Catch-all route: Redirect to login */}
-                    {!isAuthenticated && (
-                        <Route path="*" element={<Navigate to="/" />} />
-                    )}
-                </Routes>
-            </div>
-        </Router>
-    );
+          {/* Catch-all redirect for unauthenticated */}
+          {!isAuthenticated && <Route path="*" element={<Navigate to="/" />} />}
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

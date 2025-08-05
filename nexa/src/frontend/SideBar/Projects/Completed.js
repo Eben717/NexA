@@ -22,6 +22,11 @@ const Completed = () => {
     fetchProjects();
   }, []);
 
+  const handleProjectClick = (projectName) => {
+    const encodedName = encodeURIComponent(projectName);
+    navigate(`/projects/completed/${encodedName}`);
+  };
+
   return (
     <>
       {/* Back Button */}
@@ -36,10 +41,15 @@ const Completed = () => {
         <ul className="project-list">
           {projects.map((item, index) => {
             const project = item.AuditsCompleted;
+            const projectName = project?.projectName || `Project-${index + 1}`;
 
             return (
               <li key={index}>
-                <div className="project-card">
+                <div
+                  className="project-card"
+                  onClick={() => handleProjectClick(projectName)}
+                  style={{ cursor: 'pointer' }}
+                >
                   {typeof project === 'object' ? (
                     Object.entries(project).map(([key, value]) => (
                       <div key={key}>
