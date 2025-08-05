@@ -41,28 +41,21 @@ const Completed = () => {
         <ul className="project-list">
           {projects.map((item, index) => {
             const project = item.AuditsCompleted;
-            const projectName = project?.projectName || `Project-${index + 1}`;
+  const projectName = item.AuditsCompleted || `Project-${index + 1}`;
 
-            return (
-              <li key={index}>
-                <div
-                  className="project-card"
-                  onClick={() => handleProjectClick(projectName)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {typeof project === 'object' ? (
-                    Object.entries(project).map(([key, value]) => (
-                      <div key={key}>
-                        <strong>{key}:</strong> {value?.toString()}
-                      </div>
-                    ))
-                  ) : (
-                    <div>{project}</div>
-                  )}
-                </div>
-              </li>
-            );
-          })}
+  return (
+    <li key={index}>
+      <div
+        className="project-card"
+        onClick={() => handleProjectClick(projectName)}
+        style={{ cursor: 'pointer' }}
+      >
+        {projectName}
+      </div>
+    </li>
+  );
+})}
+
         </ul>
       </div>
     </>
