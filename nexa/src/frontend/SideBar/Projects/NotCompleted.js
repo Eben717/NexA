@@ -15,12 +15,17 @@ const NotCompleted = () => {
           setProjects(data.auditsNotCompleted);
         }
       } catch (err) {
-        console.error('Failed to fetch projects:', err);
+        console.error('❌ Failed to fetch projects:', err);
       }
     };
 
     fetchProjects();
   }, []);
+
+  const handleProjectClick = (projectName) => {
+    const encodedName = encodeURIComponent(projectName);
+    navigate(`/projects/not-completed/${encodedName}`);
+  };
 
   return (
     <>
@@ -36,10 +41,18 @@ const NotCompleted = () => {
         <ul className="project-list">
           {projects.map((item, index) => {
             const project = item.AuditsNotCompleted;
+            const projectName =
+              typeof project === 'string'
+                ? project
+                : project?.projectName || project?.clientName || `Project-${index + 1}`;
 
             return (
               <li key={index}>
-                <div className="project-card">
+                <div
+                  className="project-card"
+                  onClick={() => handleProjectClick(projectName)}
+                  style={{ cursor: 'pointer' }}
+                >
                   {typeof project === 'object' ? (
                     Object.entries(project).map(([key, value]) => (
                       <div key={key}>
@@ -47,7 +60,7 @@ const NotCompleted = () => {
                       </div>
                     ))
                   ) : (
-                    <div>{project}</div>
+                    <div>{projectName}</div>
                   )}
                 </div>
               </li>

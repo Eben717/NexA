@@ -15,12 +15,17 @@ const Inprogress = () => {
           setProjects(data.auditsInProgress);
         }
       } catch (err) {
-        console.error('Failed to fetch projects:', err);
+        console.error('❌ Failed to fetch projects:', err);
       }
     };
 
     fetchProjects();
   }, []);
+
+  const handleProjectClick = (projectName) => {
+    const encodedName = encodeURIComponent(projectName);
+    navigate(`/projects/in-progress/${encodedName}`);
+  };
 
   return (
     <>
@@ -36,10 +41,17 @@ const Inprogress = () => {
         <ul className="project-list">
           {projects.map((item, index) => {
             const project = item.AuditsInProgress;
+            const projectName = typeof project === 'string' 
+              ? project 
+              : project?.projectName || project?.clientName || `Project-${index + 1}`;
 
             return (
               <li key={index}>
-                <div className="project-card">
+                <div
+                  className="project-card"
+                  onClick={() => handleProjectClick(projectName)}
+                  style={{ cursor: 'pointer' }}
+                >
                   {typeof project === 'object' ? (
                     Object.entries(project).map(([key, value]) => (
                       <div key={key}>
