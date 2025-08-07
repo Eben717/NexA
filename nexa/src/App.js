@@ -19,7 +19,6 @@ import CompletedReports from './frontend/SideBar/Reports/completedreports';
 import InprogressReports from './frontend/SideBar/Reports/inprogressreports';
 import DueReports from './frontend/SideBar/Reports/duereport';
 import ReportsList from './frontend/SideBar/Reports/reportslist';
-import { Auth0Provider } from '@auth0/auth0-react';
 import './app.css';
 
 function App() {
