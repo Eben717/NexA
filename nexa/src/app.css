@@ -292,3 +292,24 @@
   color: #4a6fa5;
   margin-right: 5px;
 }
+
+/* Tailwind utility equivalents shown */
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded;
+}
+
+.btn-secondary {
+  @apply bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded;
+}
+
+.btn-outline {
+  @apply border border-gray-400 hover:bg-gray-100 text-gray-800 font-medium px-4 py-2 rounded;
+}
+
+.input {
+  @apply border border-gray-300 px-3 py-2 rounded w-full;
+}

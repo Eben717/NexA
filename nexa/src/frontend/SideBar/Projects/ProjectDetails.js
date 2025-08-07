@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 const ProjectDetail = () => {
   const { projectName } = useParams();
@@ -8,40 +8,33 @@ const ProjectDetail = () => {
   const decodedProjectName = decodeURIComponent(projectName);
   const [newName, setNewName] = useState('');
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  const notify = (msg) => alert(msg); // Replace with toast later
-
-  const handleFileUpload = useCallback(async () => {
-    if (!file) return notify('Please select a file to upload.');
+  // Upload File
+  const handleFileUpload = async () => {
+    if (!file) return;
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('projectName', decodedProjectName);
 
     try {
-      setLoading(true);
       const res = await fetch('http://localhost:2000/api/projects/upload', {
         method: 'POST',
         body: formData,
       });
 
-      res.ok
-        ? notify('✅ File uploaded successfully!')
-        : notify('❌ File upload failed.');
+      if (res.ok) alert('File uploaded successfully!');
+      else alert('❌ File upload failed.');
     } catch (err) {
-      console.error('Upload error:', err);
-      notify('❌ An error occurred while uploading.');
-    } finally {
-      setLoading(false);
+      console.error('❌ Upload error:', err);
     }
-  }, [file, decodedProjectName]);
+  };
 
-  const handleRename = useCallback(async () => {
-    if (!newName.trim()) return notify('New name cannot be empty.');
+  // Rename Project
+  const handleRename = async () => {
+    if (!newName.trim()) return;
 
     try {
-      setLoading(true);
       const res = await fetch(`http://localhost:2000/api/projects/rename`, {
         method: 'PUT',
         headers: {
@@ -54,130 +47,83 @@ const ProjectDetail = () => {
       });
 
       if (res.ok) {
-        notify('✅ Project renamed!');
+        alert('✅ Project renamed!');
         navigate(`/projects/${encodeURIComponent(newName)}`);
       } else {
-        notify('❌ Rename failed.');
+        alert('❌ Rename failed.');
       }
     } catch (err) {
-      console.error('Rename error:', err);
-      notify('❌ An error occurred while renaming.');
-    } finally {
-      setLoading(false);
+      console.error('❌ Rename error:', err);
     }
-  }, [newName, decodedProjectName, navigate]);
+  };
 
-  const handleDelete = useCallback(async () => {
+  // Delete Project
+  const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this project?')) return;
 
     try {
-      setLoading(true);
       const res = await fetch(`http://localhost:2000/api/projects/delete/${encodeURIComponent(decodedProjectName)}`, {
         method: 'DELETE',
       });
 
       if (res.ok) {
-        notify('🗑️ Project deleted.');
+        alert('🗑️ Project deleted.');
         navigate('/projects');
       } else {
-        notify('❌ Delete failed.');
+        alert('❌ Delete failed.');
       }
     } catch (err) {
-      console.error('Delete error:', err);
-      notify('❌ An error occurred while deleting.');
-    } finally {
-      setLoading(false);
+      console.error('❌ Delete error:', err);
     }
-  }, [decodedProjectName, navigate]);
+  };
 
-  const handleShare = useCallback(() => {
+  // Share - For simplicity, generate a link
+  const handleShare = () => {
     const shareLink = `${window.location.origin}/projects/${encodeURIComponent(decodedProjectName)}`;
     navigator.clipboard.writeText(shareLink);
-    notify('📤 Shareable link copied to clipboard!');
-  }, [decodedProjectName]);
+    alert('📤 Shareable link copied to clipboard!');
+  };
 
   return (
-    <div className="project-detail-container max-w-2xl mx-auto px-4 py-6 bg-white shadow-lg rounded-lg">
-      <button onClick={() => navigate(-1)} className="back-button mb-4">
+    <>
+      <button onClick={() => navigate(-1)} className="back-button">
         ← Back
       </button>
 
-      <h1 className="header text-2xl font-bold text-gray-800 mb-6">{decodedProjectName}</h1>
+      <h1 className="header">{decodedProjectName}</h1>
 
-      <div className="space-y-6">
+      <div className="project-detail-wrapper">
+        <p>Here you can:</p>
+        <ul>
+          <li>
+            📎 Attach relevant documents
+            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <button onClick={handleFileUpload}>Upload</button>
+          </li>
 
-        {/* Upload File */}
-        <div className="action-group">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            📎 Upload Document
-          </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files?.[0])}
-              className="block w-full text-sm text-gray-700"
-            />
-            <button
-              onClick={handleFileUpload}
-              disabled={loading}
-              className="btn-primary"
-            >
-              Upload
-            </button>
-          </div>
-        </div>
-
-        {/* Rename Project */}
-        <div className="action-group">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            ✏️ Rename Project
-          </label>
-          <div className="flex items-center gap-3">
+          <li>
+            ✏️ Rename the project
             <input
               type="text"
-              placeholder="Enter new name"
+              placeholder="New name"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              className="input text-sm flex-1"
             />
-            <button
-              onClick={handleRename}
-              disabled={loading}
-              className="btn-secondary"
-            >
-              Rename
-            </button>
-          </div>
-        </div>
+            <button onClick={handleRename}>Rename</button>
+          </li>
 
-        {/* Delete Project */}
-        <div className="action-group">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            🗑️ Delete Project
-          </label>
-          <button
-            onClick={handleDelete}
-            disabled={loading}
-            className="btn-danger w-full"
-          >
-            Delete Project
-          </button>
-        </div>
+          <li>
+            🗑️ Delete the project
+            <button onClick={handleDelete} style={{ color: 'red' }}>Delete</button>
+          </li>
 
-        {/* Share Project */}
-        <div className="action-group">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            📤 Share Project
-          </label>
-          <button
-            onClick={handleShare}
-            className="btn-outline w-full"
-          >
-            Copy Shareable Link
-          </button>
-        </div>
+          <li>
+            📤 Share the documents
+            <button onClick={handleShare}>Copy Shareable Link</button>
+          </li>
+        </ul>
       </div>
-    </div>
+    </>
   );
 };
 
