@@ -93,7 +93,6 @@ const ProjectDetail = () => {
       <h1 className="header">{decodedProjectName}</h1>
 
       <div className="project-detail-wrapper">
-        <p>Here you can:</p>
         <ul>
           <li>
             📎 Attach relevant documents
