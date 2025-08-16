@@ -11,7 +11,7 @@ import {
 
 const sidebarItems = [
   { name: 'Dashboard', key: 'dashboard', icon: <FaTachometerAlt /> },
-  { name: 'Projects', key: 'projects', icon: <FaFolderOpen /> },
+  { name: 'Audits', key: 'projects', icon: <FaFolderOpen /> },
   { name: 'Reports', key: 'reports', icon: <FaChartBar /> },
   { name: 'Library', key: 'library', icon: <FaBook /> },
 ];

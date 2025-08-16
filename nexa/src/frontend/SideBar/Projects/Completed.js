@@ -34,7 +34,7 @@ const Completed = () => {
         ← Back
       </button>
 
-      <h1 className="header">Completed Projects</h1>
+      <h1 className="header">Completed Audits</h1>
 
       {/* Scrollable Project List */}
       <div className="project-list-wrapper">

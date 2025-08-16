@@ -60,7 +60,7 @@ const Projects = () => {
     <>
       {/* Header */}
       <h1 className='header'>
-        Projects
+        Audits
       </h1>
       
       {/* Circles */}
