@@ -1,84 +1,128 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const ProjectDetail = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
+
   const decodedProjectName = decodeURIComponent(projectName);
+  const [newName, setNewName] = useState('');
+  const [file, setFile] = useState(null);
 
-  const [projectData, setProjectData] = useState(null);
+  // Upload File
+  const handleFileUpload = async () => {
+    if (!file) return;
 
-  // Fetch client details from backend
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`http://localhost:2000/api/projects/${decodedProjectName}`);
-        const data = await res.json();
-        setProjectData(data);
-      } catch (err) {
-        console.error("Error fetching project details:", err);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('projectName', decodedProjectName);
+
+    try {
+      const res = await fetch('http://localhost:2000/api/projects/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) alert('File uploaded successfully!');
+      else alert('❌ File upload failed.');
+    } catch (err) {
+      console.error('❌ Upload error:', err);
+    }
+  };
+
+  // Rename Project
+  const handleRename = async () => {
+    if (!newName.trim()) return;
+
+    try {
+      const res = await fetch(`http://localhost:2000/api/projects/rename`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          oldName: decodedProjectName,
+          newName,
+        }),
+      });
+
+      if (res.ok) {
+        alert('✅ Project renamed!');
+        navigate(`/projects/${encodeURIComponent(newName)}`);
+      } else {
+        alert('❌ Rename failed.');
       }
-    };
-    fetchData();
-  }, [decodedProjectName]);
+    } catch (err) {
+      console.error('❌ Rename error:', err);
+    }
+  };
 
-  if (!projectData) return <p>Loading client details...</p>;
+  // Delete Project
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this project?')) return;
+
+    try {
+      const res = await fetch(`http://localhost:2000/api/projects/delete/${encodeURIComponent(decodedProjectName)}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        alert('🗑️ Project deleted.');
+        navigate('/projects');
+      } else {
+        alert('❌ Delete failed.');
+      }
+    } catch (err) {
+      console.error('❌ Delete error:', err);
+    }
+  };
+
+  // Share - For simplicity, generate a link
+  const handleShare = () => {
+    const shareLink = `${window.location.origin}/projects/${encodeURIComponent(decodedProjectName)}`;
+    navigator.clipboard.writeText(shareLink);
+    alert('📤 Shareable link copied to clipboard!');
+  };
 
   return (
-    <div className="project-detail-wrapper">
-      <button onClick={() => navigate(-1)} className="back-button">← Back</button>
+    <>
+      <button onClick={() => navigate(-1)} className="back-button">
+        ← Back
+      </button>
+
       <h1 className="header">{decodedProjectName}</h1>
 
-      {/* GENERAL INFO */}
-      <section>
-        <h2>Client Information</h2>
-        <p><b>Company:</b> {projectData.companyName}</p>
-        <p><b>Contact:</b> {projectData.contactPerson}</p>
-        <p><b>Scope:</b> {projectData.certificationScope.join(", ")}</p>
-        <p><b>Status:</b> {projectData.status}</p>
-      </section>
-
-      {/* AUDIT INFO */}
-      <section>
-        <h2>Audit Details</h2>
+      <div className="project-detail-wrapper">
         <ul>
-          {projectData.audits.map((audit, idx) => (
-            <li key={idx}>
-              {audit.type} – {audit.date} – {audit.auditor} – {audit.status}
-            </li>
-          ))}
-        </ul>
-      </section>
+          <li>
+            📎 Attach relevant documents
+            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <button onClick={handleFileUpload}>Upload</button>
+          </li>
 
-      {/* DOCUMENTS */}
-      <section>
-        <h2>Documents</h2>
-        <ul>
-          {projectData.documents.map((doc, idx) => (
-            <li key={idx}>
-              <a href={doc.url} target="_blank" rel="noreferrer">{doc.name}</a>
-            </li>
-          ))}
-        </ul>
-      </section>
+          <li>
+            ✏️ Rename the project
+            <input
+              type="text"
+              placeholder="New name"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+            />
+            <button onClick={handleRename}>Rename</button>
+          </li>
 
-      {/* CHECKLISTS */}
-      <section>
-        <h2>Compliance Checklists</h2>
-        {projectData.checklists.map((checklist, idx) => (
-          <div key={idx}>
-            <h3>{checklist.standard}</h3>
-            <ul>
-              {checklist.items.map((item, i) => (
-                <li key={i}>
-                  ✅ {item.requirement} – {item.status}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-    </div>
+          <li>
+            🗑️ Delete the project
+            <button onClick={handleDelete} style={{ color: 'red' }}>Delete</button>
+          </li>
+
+          <li>
+            📤 Share the documents
+            <button onClick={handleShare}>Copy Shareable Link</button>
+          </li>
+        </ul>
+      </div>
+    </>
   );
 };
 
