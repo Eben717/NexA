@@ -293,3 +293,46 @@
   margin-right: 5px;
 }
 
+.project-detail-wrapper {
+    max-height: calc(100vh - 150px); /* Adjust depending on header */
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-top: 20px;
+}
+
+/* Collapsible Sections for Project Details */
+.collapsible-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a3a6b;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
+}
+
+.collapsible-header:hover {
+  color: #4a6fa5;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.arrow.down {
+  transform: rotate(90deg);
+}
+
+.collapsible-content {
+  margin-left: 20px;
+  margin-bottom: 15px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

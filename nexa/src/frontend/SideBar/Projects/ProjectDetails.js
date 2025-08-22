@@ -1,140 +1,95 @@
-// src/components/ProjectDetail.js
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const ProjectDetail = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
-
   const decodedProjectName = decodeURIComponent(projectName);
 
-  // States for each section
-  const [clientInfo, setClientInfo] = useState({});
-  const [metaInfo, setMetaInfo] = useState({});
-  const [engagementDetails, setEngagementDetails] = useState({});
-  const [documents, setDocuments] = useState([]);
+  const [expanded, setExpanded] = useState({
+    client: false,
+    meta: false,
+    engagement: false,
+    documentation: false,
+  });
 
-  const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // ✅ Fetch project details
-  useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:2000/api/projects/${encodeURIComponent(
-            decodedProjectName
-          )}`
-        );
-        if (res.ok) {
-          const data = await res.json();
-
-          setClientInfo(data.clientInfo || {});
-          setMetaInfo(data.metaInfo || {});
-          setEngagementDetails(data.engagementDetails || {});
-          setDocuments(data.documents || []);
-        } else {
-          console.error("❌ Failed to fetch project details.");
-        }
-      } catch (err) {
-        console.error("❌ Fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDetails();
-  }, [decodedProjectName]);
-
-  // ✅ Upload new document
-  const handleFileUpload = async () => {
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("projectName", decodedProjectName);
-
-    try {
-      const res = await fetch("http://localhost:2000/api/projects/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (res.ok) {
-        alert("✅ File uploaded successfully!");
-        const updated = await res.json();
-        setDocuments(updated.documents || []);
-        setFile(null);
-      } else {
-        alert("❌ File upload failed.");
-      }
-    } catch (err) {
-      console.error("❌ Upload error:", err);
-    }
+  const toggleSection = (section) => {
+    setExpanded((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
   return (
-    <div className="project-detail-wrapper">
+    <>
       <button onClick={() => navigate(-1)} className="back-button">
         ← Back
       </button>
 
       <h1 className="header">{decodedProjectName}</h1>
 
-      {loading ? (
-        <p>Loading project details...</p>
-      ) : (
-        <>
-          {/* 1. Client Information */}
-          <section>
-            <h2>👤 Client Information</h2>
-            <p><strong>Name:</strong> {clientInfo.name}</p>
-            <p><strong>Contact Person:</strong> {clientInfo.contactPerson}</p>
-            <p><strong>Address:</strong> {clientInfo.address}</p>
-            <p><strong>Email:</strong> {clientInfo.email}</p>
-            <p><strong>Phone:</strong> {clientInfo.phone}</p>
-          </section>
-
-          {/* 2. Meta Information */}
-          <section>
-            <h2>📊 Meta Information</h2>
-            <p><strong>Audit Duration:</strong> {metaInfo.duration}</p>
-            <p><strong>Audit Team:</strong> {metaInfo.teamMembers?.join(", ")}</p>
-          </section>
-
-          {/* 3. Engagement Details */}
-          <section>
-            <h2>📑 Audit Engagement Details</h2>
-            <p><strong>Scope:</strong> {engagementDetails.scope}</p>
-            <p><strong>Objectives:</strong> {engagementDetails.objectives}</p>
-            <p><strong>Risks:</strong> {engagementDetails.risks}</p>
-          </section>
-
-          {/* 4. Documentation */}
-          <section>
-            <h2>📂 Documentation</h2>
-            {documents.length > 0 ? (
-              <ul>
-                {documents.map((doc, idx) => (
-                  <li key={idx}>
-                    <a href={doc.url} target="_blank" rel="noopener noreferrer">
-                      {doc.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No documents uploaded yet.</p>
-            )}
-
-            <div className="upload-section">
-              <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-              <button onClick={handleFileUpload}>Upload Document</button>
+      <div className="project-detail-wrapper">
+        {/* Client Information */}
+        <section>
+          <h2 onClick={() => toggleSection("client")} className="collapsible-header">
+            <span className={`arrow ${expanded.client ? "down" : ""}`}>▶</span> Client Information
+          </h2>
+          {expanded.client && (
+            <div className="collapsible-content">
+              <p><strong>Client Name:</strong> Example Company Ltd.</p>
+              <p><strong>Contact Person:</strong> John Doe</p>
+              <p><strong>Address:</strong> 123 Main Street, Accra</p>
+              <p><strong>Email:</strong> johndoe@example.com</p>
+              <p><strong>Phone:</strong> +233 24 000 1111</p>
             </div>
-          </section>
-        </>
-      )}
-    </div>
+          )}
+        </section>
+
+        {/* Meta Information */}
+        <section>
+          <h2 onClick={() => toggleSection("meta")} className="collapsible-header">
+            <span className={`arrow ${expanded.meta ? "down" : ""}`}>▶</span> Meta Information
+          </h2>
+          {expanded.meta && (
+            <div className="collapsible-content">
+              <p><strong>Audit Duration:</strong> Jan 5, 2025 – Jan 20, 2025</p>
+              <p><strong>Audit Team:</strong> Alice, Michael, Ebenezer</p>
+            </div>
+          )}
+        </section>
+
+        {/* Audit Engagement */}
+        <section>
+          <h2 onClick={() => toggleSection("engagement")} className="collapsible-header">
+            <span className={`arrow ${expanded.engagement ? "down" : ""}`}>▶</span> Audit Engagement
+          </h2>
+          {expanded.engagement && (
+            <div className="collapsible-content">
+              <p><strong>Scope:</strong> Financial compliance & internal controls</p>
+              <p><strong>Objectives:</strong> Ensure accurate reporting, assess risk exposure</p>
+              <p><strong>Risks:</strong> Fraud, regulatory non-compliance</p>
+            </div>
+          )}
+        </section>
+
+        {/* Documentation */}
+        <section>
+          <h2 onClick={() => toggleSection("documentation")} className="collapsible-header">
+            <span className={`arrow ${expanded.documentation ? "down" : ""}`}>▶</span> Documentation
+          </h2>
+          {expanded.documentation && (
+            <div className="collapsible-content">
+              <ul className="documents-list">
+                <li><a href="#">Audit Plan.pdf</a></li>
+                <li><a href="#">Risk Assessment.xlsx</a></li>
+                <li><a href="#">Evidence_Photos.zip</a></li>
+              </ul>
+              <div className="upload-section">
+                <input type="file" />
+                <button className="rename-btn">Upload</button>
+              </div>
+            </div>
+          )}
+        </section>
+      </div>
+    </>
   );
 };
 
