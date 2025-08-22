@@ -1,128 +1,140 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+// src/components/ProjectDetail.js
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const ProjectDetail = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
 
   const decodedProjectName = decodeURIComponent(projectName);
-  const [newName, setNewName] = useState('');
-  const [file, setFile] = useState(null);
 
-  // Upload File
+  // States for each section
+  const [clientInfo, setClientInfo] = useState({});
+  const [metaInfo, setMetaInfo] = useState({});
+  const [engagementDetails, setEngagementDetails] = useState({});
+  const [documents, setDocuments] = useState([]);
+
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ Fetch project details
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:2000/api/projects/${encodeURIComponent(
+            decodedProjectName
+          )}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+
+          setClientInfo(data.clientInfo || {});
+          setMetaInfo(data.metaInfo || {});
+          setEngagementDetails(data.engagementDetails || {});
+          setDocuments(data.documents || []);
+        } else {
+          console.error("❌ Failed to fetch project details.");
+        }
+      } catch (err) {
+        console.error("❌ Fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDetails();
+  }, [decodedProjectName]);
+
+  // ✅ Upload new document
   const handleFileUpload = async () => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('projectName', decodedProjectName);
+    formData.append("file", file);
+    formData.append("projectName", decodedProjectName);
 
     try {
-      const res = await fetch('http://localhost:2000/api/projects/upload', {
-        method: 'POST',
+      const res = await fetch("http://localhost:2000/api/projects/upload", {
+        method: "POST",
         body: formData,
       });
 
-      if (res.ok) alert('File uploaded successfully!');
-      else alert('❌ File upload failed.');
-    } catch (err) {
-      console.error('❌ Upload error:', err);
-    }
-  };
-
-  // Rename Project
-  const handleRename = async () => {
-    if (!newName.trim()) return;
-
-    try {
-      const res = await fetch(`http://localhost:2000/api/projects/rename`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          oldName: decodedProjectName,
-          newName,
-        }),
-      });
-
       if (res.ok) {
-        alert('✅ Project renamed!');
-        navigate(`/projects/${encodeURIComponent(newName)}`);
+        alert("✅ File uploaded successfully!");
+        const updated = await res.json();
+        setDocuments(updated.documents || []);
+        setFile(null);
       } else {
-        alert('❌ Rename failed.');
+        alert("❌ File upload failed.");
       }
     } catch (err) {
-      console.error('❌ Rename error:', err);
+      console.error("❌ Upload error:", err);
     }
-  };
-
-  // Delete Project
-  const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this project?')) return;
-
-    try {
-      const res = await fetch(`http://localhost:2000/api/projects/delete/${encodeURIComponent(decodedProjectName)}`, {
-        method: 'DELETE',
-      });
-
-      if (res.ok) {
-        alert('🗑️ Project deleted.');
-        navigate('/projects');
-      } else {
-        alert('❌ Delete failed.');
-      }
-    } catch (err) {
-      console.error('❌ Delete error:', err);
-    }
-  };
-
-  // Share - For simplicity, generate a link
-  const handleShare = () => {
-    const shareLink = `${window.location.origin}/projects/${encodeURIComponent(decodedProjectName)}`;
-    navigator.clipboard.writeText(shareLink);
-    alert('📤 Shareable link copied to clipboard!');
   };
 
   return (
-    <>
+    <div className="project-detail-wrapper">
       <button onClick={() => navigate(-1)} className="back-button">
         ← Back
       </button>
 
       <h1 className="header">{decodedProjectName}</h1>
 
-      <div className="project-detail-wrapper">
-        <ul>
-          <li>
-            📎 Attach relevant documents
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-            <button onClick={handleFileUpload}>Upload</button>
-          </li>
+      {loading ? (
+        <p>Loading project details...</p>
+      ) : (
+        <>
+          {/* 1. Client Information */}
+          <section>
+            <h2>👤 Client Information</h2>
+            <p><strong>Name:</strong> {clientInfo.name}</p>
+            <p><strong>Contact Person:</strong> {clientInfo.contactPerson}</p>
+            <p><strong>Address:</strong> {clientInfo.address}</p>
+            <p><strong>Email:</strong> {clientInfo.email}</p>
+            <p><strong>Phone:</strong> {clientInfo.phone}</p>
+          </section>
 
-          <li>
-            ✏️ Rename the project
-            <input
-              type="text"
-              placeholder="New name"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-            />
-            <button onClick={handleRename}>Rename</button>
-          </li>
+          {/* 2. Meta Information */}
+          <section>
+            <h2>📊 Meta Information</h2>
+            <p><strong>Audit Duration:</strong> {metaInfo.duration}</p>
+            <p><strong>Audit Team:</strong> {metaInfo.teamMembers?.join(", ")}</p>
+          </section>
 
-          <li>
-            🗑️ Delete the project
-            <button onClick={handleDelete} style={{ color: 'red' }}>Delete</button>
-          </li>
+          {/* 3. Engagement Details */}
+          <section>
+            <h2>📑 Audit Engagement Details</h2>
+            <p><strong>Scope:</strong> {engagementDetails.scope}</p>
+            <p><strong>Objectives:</strong> {engagementDetails.objectives}</p>
+            <p><strong>Risks:</strong> {engagementDetails.risks}</p>
+          </section>
 
-          <li>
-            📤 Share the documents
-            <button onClick={handleShare}>Copy Shareable Link</button>
-          </li>
-        </ul>
-      </div>
-    </>
+          {/* 4. Documentation */}
+          <section>
+            <h2>📂 Documentation</h2>
+            {documents.length > 0 ? (
+              <ul>
+                {documents.map((doc, idx) => (
+                  <li key={idx}>
+                    <a href={doc.url} target="_blank" rel="noopener noreferrer">
+                      {doc.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No documents uploaded yet.</p>
+            )}
+
+            <div className="upload-section">
+              <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+              <button onClick={handleFileUpload}>Upload Document</button>
+            </div>
+          </section>
+        </>
+      )}
+    </div>
   );
 };
 
