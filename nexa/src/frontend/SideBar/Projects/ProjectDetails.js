@@ -2,14 +2,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const API_BASE = "http://localhost:2000/api/project-detail"; // adjust if deployed
+const API_BASE = "http://localhost:2000/api/project-detail";
 
 const ProjectDetail = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
   const decodedProjectName = decodeURIComponent(projectName);
 
-  // Expand/collapse state
   const [expanded, setExpanded] = useState({
     client: false,
     meta: false,
@@ -17,39 +16,49 @@ const ProjectDetail = () => {
     documentation: false,
   });
 
-  // Data state
   const [projectData, setProjectData] = useState(null);
-  const [editMode, setEditMode] = useState({});
+  const [editMode, setEditMode] = useState({
+    client: true,
+    meta: true,
+    engagement: true,
+  });
+
   const [file, setFile] = useState(null);
   const [previewDoc, setPreviewDoc] = useState(null);
 
-  // Load project detail on mount
+  // load project detail
   useEffect(() => {
     fetch(`${API_BASE}/${decodedProjectName}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Not found");
-        return res.json();
-      })
-      .then((data) => setProjectData(data))
-      .catch(() => {
-        // If not found, start with empty structure
+      .then((res) => res.json())
+      .then((data) =>
+        setProjectData(
+          data || {
+            projectName: decodedProjectName,
+            clientInfo: {},
+            metaInfo: {},
+            engagementInfo: {},
+            documents: [],
+          }
+        )
+      )
+      .catch(() =>
         setProjectData({
           projectName: decodedProjectName,
           clientInfo: {},
           metaInfo: {},
           engagementInfo: {},
           documents: [],
-        });
-      });
+        })
+      );
   }, [decodedProjectName]);
 
-  const toggleSection = (section) => {
+  const toggleSection = (section) =>
     setExpanded((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
+
+  const toggleEdit = (section) =>
+    setEditMode((prev) => ({ ...prev, [section]: !prev[section] }));
 
   const handleSave = async () => {
-    if (!projectData) return;
-
     const res = await fetch(`${API_BASE}/${decodedProjectName}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -59,10 +68,9 @@ const ProjectDetail = () => {
     if (res.ok) {
       const updated = await res.json();
       setProjectData(updated);
-      setEditMode({});
       alert("✅ Saved successfully!");
     } else {
-      alert("❌ Failed to save");
+      alert("❌ Save failed");
     }
   };
 
@@ -91,76 +99,86 @@ const ProjectDetail = () => {
 
   return (
     <>
-      <button onClick={() => navigate(-1)} className="back-button">
-        ← Back
-      </button>
-
+      <button onClick={() => navigate(-1)} className="back-button">← Back</button>
       <h1 className="header">{decodedProjectName}</h1>
 
       <div className="project-detail-wrapper">
         {/* Client Information */}
         <section>
           <h2 onClick={() => toggleSection("client")} className="collapsible-header">
-            <span className={`arrow ${expanded.client ? "down" : ""}`}>▶</span>{" "}
-            Client Information
+            <span className={`arrow ${expanded.client ? "down" : ""}`}>▶</span> Client Information
           </h2>
           {expanded.client && (
             <div className="collapsible-content">
-              <input
-                type="text"
-                value={projectData.clientInfo?.name || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    clientInfo: { ...projectData.clientInfo, name: e.target.value },
-                  })
-                }
-                placeholder="Client Name"
-              />
-              <input
-                type="text"
-                value={projectData.clientInfo?.contact || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    clientInfo: { ...projectData.clientInfo, contact: e.target.value },
-                  })
-                }
-                placeholder="Contact Person"
-              />
-              <input
-                type="text"
-                value={projectData.clientInfo?.address || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    clientInfo: { ...projectData.clientInfo, address: e.target.value },
-                  })
-                }
-                placeholder="Address"
-              />
-              <input
-                type="email"
-                value={projectData.clientInfo?.email || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    clientInfo: { ...projectData.clientInfo, email: e.target.value },
-                  })
-                }
-                placeholder="Email"
-              />
-              <input
-                type="text"
-                value={projectData.clientInfo?.phone || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    clientInfo: { ...projectData.clientInfo, phone: e.target.value },
-                  })
-                }
-                placeholder="Phone"
-              />
+              {editMode.client ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Client Name"
+                    value={projectData.clientInfo?.name || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        clientInfo: { ...projectData.clientInfo, name: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Contact Person"
+                    value={projectData.clientInfo?.contact || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        clientInfo: { ...projectData.clientInfo, contact: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    value={projectData.clientInfo?.address || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        clientInfo: { ...projectData.clientInfo, address: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={projectData.clientInfo?.email || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        clientInfo: { ...projectData.clientInfo, email: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Phone"
+                    value={projectData.clientInfo?.phone || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        clientInfo: { ...projectData.clientInfo, phone: e.target.value },
+                      })
+                    }
+                  />
+                  <button onClick={() => toggleEdit("client")} className="rename-btn">Save</button>
+                </>
+              ) : (
+                <ul>
+                  <li><b>Name:</b> {projectData.clientInfo?.name}</li>
+                  <li><b>Contact:</b> {projectData.clientInfo?.contact}</li>
+                  <li><b>Address:</b> {projectData.clientInfo?.address}</li>
+                  <li><b>Email:</b> {projectData.clientInfo?.email}</li>
+                  <li><b>Phone:</b> {projectData.clientInfo?.phone}</li>
+                  <button onClick={() => toggleEdit("client")} className="rename-btn">Edit</button>
+                </ul>
+              )}
             </div>
           )}
         </section>
@@ -172,28 +190,39 @@ const ProjectDetail = () => {
           </h2>
           {expanded.meta && (
             <div className="collapsible-content">
-              <input
-                type="text"
-                value={projectData.metaInfo?.duration || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    metaInfo: { ...projectData.metaInfo, duration: e.target.value },
-                  })
-                }
-                placeholder="Audit Duration"
-              />
-              <input
-                type="text"
-                value={projectData.metaInfo?.team || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    metaInfo: { ...projectData.metaInfo, team: e.target.value },
-                  })
-                }
-                placeholder="Team Members"
-              />
+              {editMode.meta ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Audit Duration"
+                    value={projectData.metaInfo?.duration || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        metaInfo: { ...projectData.metaInfo, duration: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Team Members"
+                    value={projectData.metaInfo?.team || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        metaInfo: { ...projectData.metaInfo, team: e.target.value },
+                      })
+                    }
+                  />
+                  <button onClick={() => toggleEdit("meta")} className="rename-btn">Save</button>
+                </>
+              ) : (
+                <ul>
+                  <li><b>Duration:</b> {projectData.metaInfo?.duration}</li>
+                  <li><b>Team:</b> {projectData.metaInfo?.team}</li>
+                  <button onClick={() => toggleEdit("meta")} className="rename-btn">Edit</button>
+                </ul>
+              )}
             </div>
           )}
         </section>
@@ -205,42 +234,51 @@ const ProjectDetail = () => {
           </h2>
           {expanded.engagement && (
             <div className="collapsible-content">
-              <input
-                type="text"
-                value={projectData.engagementInfo?.scope || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    engagementInfo: { ...projectData.engagementInfo, scope: e.target.value },
-                  })
-                }
-                placeholder="Scope"
-              />
-              <input
-                type="text"
-                value={projectData.engagementInfo?.objectives || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    engagementInfo: {
-                      ...projectData.engagementInfo,
-                      objectives: e.target.value,
-                    },
-                  })
-                }
-                placeholder="Objectives"
-              />
-              <input
-                type="text"
-                value={projectData.engagementInfo?.risks || ""}
-                onChange={(e) =>
-                  setProjectData({
-                    ...projectData,
-                    engagementInfo: { ...projectData.engagementInfo, risks: e.target.value },
-                  })
-                }
-                placeholder="Risks"
-              />
+              {editMode.engagement ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Scope"
+                    value={projectData.engagementInfo?.scope || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        engagementInfo: { ...projectData.engagementInfo, scope: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Objectives"
+                    value={projectData.engagementInfo?.objectives || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        engagementInfo: { ...projectData.engagementInfo, objectives: e.target.value },
+                      })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Risks"
+                    value={projectData.engagementInfo?.risks || ""}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        engagementInfo: { ...projectData.engagementInfo, risks: e.target.value },
+                      })
+                    }
+                  />
+                  <button onClick={() => toggleEdit("engagement")} className="rename-btn">Save</button>
+                </>
+              ) : (
+                <ul>
+                  <li><b>Scope:</b> {projectData.engagementInfo?.scope}</li>
+                  <li><b>Objectives:</b> {projectData.engagementInfo?.objectives}</li>
+                  <li><b>Risks:</b> {projectData.engagementInfo?.risks}</li>
+                  <button onClick={() => toggleEdit("engagement")} className="rename-btn">Edit</button>
+                </ul>
+              )}
             </div>
           )}
         </section>
@@ -248,8 +286,7 @@ const ProjectDetail = () => {
         {/* Documentation */}
         <section>
           <h2 onClick={() => toggleSection("documentation")} className="collapsible-header">
-            <span className={`arrow ${expanded.documentation ? "down" : ""}`}>▶</span>{" "}
-            Documentation
+            <span className={`arrow ${expanded.documentation ? "down" : ""}`}>▶</span> Documentation
           </h2>
           {expanded.documentation && (
             <div className="collapsible-content">
@@ -262,10 +299,7 @@ const ProjectDetail = () => {
                     >
                       {doc.name}
                     </span>
-                    <button
-                      onClick={() => handleDeleteDoc(index)}
-                      style={{ marginLeft: "10px", color: "red" }}
-                    >
+                    <button onClick={() => handleDeleteDoc(index)} style={{ marginLeft: "10px", color: "red" }}>
                       Delete
                     </button>
                   </li>
@@ -276,29 +310,16 @@ const ProjectDetail = () => {
                 <button onClick={handleFileUpload} className="rename-btn">Upload</button>
               </div>
 
-              {/* Preview */}
               {previewDoc && (
                 <div className="preview-section">
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <h4>Preview: {previewDoc.name}</h4>
-                    <button onClick={() => setPreviewDoc(null)} style={{ color: "red" }}>
-                      ✖
-                    </button>
+                    <button onClick={() => setPreviewDoc(null)} style={{ color: "red" }}>✖</button>
                   </div>
-
                   {previewDoc.name.match(/\.(pdf)$/i) ? (
                     <embed src={previewDoc.url} type="application/pdf" width="100%" height="500px" />
                   ) : previewDoc.name.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                     <img src={previewDoc.url} alt={previewDoc.name} style={{ maxWidth: "100%" }} />
-                  ) : previewDoc.name.match(/\.(docx|doc|pptx|ppt|xlsx|xls)$/i) ? (
-                    <iframe
-                      src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
-                        previewDoc.url
-                      )}`}
-                      width="100%"
-                      height="500px"
-                      title="Office Preview"
-                    ></iframe>
                   ) : (
                     <iframe src={previewDoc.url} width="100%" height="400px" title="preview"></iframe>
                   )}
@@ -308,9 +329,7 @@ const ProjectDetail = () => {
           )}
         </section>
 
-        <button onClick={handleSave} className="save-btn">
-          💾 Save All
-        </button>
+        <button onClick={handleSave} className="save-btn">💾 Save All</button>
       </div>
     </>
   );
