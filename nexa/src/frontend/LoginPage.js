@@ -1,5 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCoXEB_7-Ztoxp0j7HQonnNi34DIkXEqqY",
+  authDomain: "nexa-c54cd.firebaseapp.com",
+  projectId: "nexa-c54cd",
+  storageBucket: "nexa-c54cd.firebasestorage.app",
+  messagingSenderId: "189967308275",
+  appId: "1:189967308275:web:2939bdc0c388384c002e86",
+  measurementId: "G-HDX0TSMJLS"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Export the Firebase Auth instance
+export const auth = getAuth(app);
 
 const styles = {
     container: {
@@ -96,17 +115,13 @@ const LoginPage = ({ setIsAuthenticated }) => {
     const [buttonHover, setButtonHover] = useState(false);
     const navigate = useNavigate();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
+        const auth = getAuth();
         let hasError = false;
 
         if (!email) {
             setEmailError('Please enter your email address.');
-            hasError = true;
-        } else if (!emailRegex.test(email)) {
-            setEmailError('Invalid email format.');
             hasError = true;
         } else {
             setEmailError('');
@@ -115,16 +130,25 @@ const LoginPage = ({ setIsAuthenticated }) => {
         if (!password) {
             setPasswordError('Please enter your password.');
             hasError = true;
-        } else if (password.length < 6) {
-            setPasswordError('Password must be at least 6 characters.');
-            hasError = true;
         } else {
             setPasswordError('');
         }
 
         if (!hasError) {
-            setIsAuthenticated(true);
-            navigate('/dashboard');
+            try {
+                // Authenticate with Firebase
+                await signInWithEmailAndPassword(auth, email, password);
+                setIsAuthenticated(true);
+                navigate('/dashboard');
+            } catch (error) {
+                if (error.code === 'auth/user-not-found') {
+                    setEmailError('No user found with this email.');
+                } else if (error.code === 'auth/wrong-password') {
+                    setPasswordError('Incorrect password.');
+                } else {
+                    setEmailError('An error occurred. Please try again.');
+                }
+            }
         }
     };
 
@@ -146,8 +170,8 @@ const LoginPage = ({ setIsAuthenticated }) => {
                 />
                 <div style={styles.title}>NexA Audit Portal</div>
                 <div style={styles.subtitle}>
-                  Welcome 
-                  <p>Please sign in to continue.</p> 
+                    Welcome
+                    <p>Please sign in to continue.</p>
                 </div>
                 <form onSubmit={handleSignIn} noValidate>
                     <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
