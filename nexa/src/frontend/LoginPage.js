@@ -5,13 +5,13 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCoXEB_7-Ztoxp0j7HQonnNi34DIkXEqqY",
-  authDomain: "nexa-c54cd.firebaseapp.com",
-  projectId: "nexa-c54cd",
-  storageBucket: "nexa-c54cd.firebasestorage.app",
-  messagingSenderId: "189967308275",
-  appId: "1:189967308275:web:2939bdc0c388384c002e86",
-  measurementId: "G-HDX0TSMJLS"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
